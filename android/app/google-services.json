@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "267474835672",
+    "project_id": "lundaapp",
+    "storage_bucket": "lundaapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:267474835672:android:019fa0c5ab8ec54b04dfad",
+        "android_client_info": {
+          "package_name": "com.example.ecommerece"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "267474835672-eo6ngn9dm1d65kejse52ik5c01bc5g6k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC6gGgUPDafo4n3F8XXR7czIFRAMJl0ORY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "267474835672-eo6ngn9dm1d65kejse52ik5c01bc5g6k.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
