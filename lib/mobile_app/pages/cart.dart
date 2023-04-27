@@ -1,5 +1,5 @@
-import 'package:ecommerece/Add_Card.dart';
-import 'package:ecommerece/conter_controller.dart';
+import 'package:ecommerece/mobile_app/Add_Card.dart';
+import 'package:ecommerece/mobile_app/pages/conter_controller.dart';
 import 'package:ecommerece/them_data.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -138,7 +138,7 @@ class _CartScreenState extends State<CartScreen> {
                                             image: DecorationImage(
                                                 fit: BoxFit.cover,
                                                 image: AssetImage(
-                                                    '${obj.cartItemsList[index].images}')),
+                                                    '${obj.cartItemsList[index].imageUrls}')),
                                           ),
                                         ),
                                       ),
@@ -158,7 +158,7 @@ class _CartScreenState extends State<CartScreen> {
                                                   fontSize: width * 0.035,
                                                 )),
                                             Text(
-                                                '${obj.cartItemsList[index].name}',
+                                                '${obj.cartItemsList[index].productname}',
                                                 style: TextStyle(
                                                   color: Colors.white,
                                                   fontSize: width * 0.045,
@@ -214,11 +214,11 @@ class _CartScreenState extends State<CartScreen> {
                                                           obj
                                                               .cartItemsList[
                                                                   index]
-                                                              .count,
+                                                              .count!,
                                                           obj
                                                               .cartItemsList[
                                                                   index]
-                                                              .amount);
+                                                              .price!);
                                                       obj.totalall();
                                                     },
                                                     child: Container(
@@ -260,11 +260,11 @@ class _CartScreenState extends State<CartScreen> {
                                                           obj
                                                               .cartItemsList[
                                                                   index]
-                                                              .count,
+                                                              .count!,
                                                           obj
                                                               .cartItemsList[
                                                                   index]
-                                                              .amount);
+                                                              .price!);
                                                       obj.totalall();
                                                     },
                                                     child: Container(
@@ -332,7 +332,7 @@ class _CartScreenState extends State<CartScreen> {
                                                   ),
                                                 ),
                                                 Text(
-                                                  '${obj.cartItemsList[index].totalPrice}',
+                                                  '${obj.cartItemsList[index].price}',
                                                   style: TextStyle(
                                                     fontSize: width * 0.055,
                                                     fontWeight: FontWeight.bold,

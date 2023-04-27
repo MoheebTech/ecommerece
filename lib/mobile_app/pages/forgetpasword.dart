@@ -1,5 +1,5 @@
-import 'package:ecommerece/Loginscreen.dart';
-import 'package:ecommerece/Recover_password.dart';
+import 'package:ecommerece/mobile_app/Loginscreen.dart';
+import 'package:ecommerece/mobile_app/Recover_password.dart';
 import 'package:ecommerece/them_data.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';

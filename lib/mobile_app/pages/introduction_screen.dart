@@ -1,9 +1,11 @@
+import 'package:ecommerece/admin_pannel/web/webintroduction_screen.dart';
 import 'package:ecommerece/clipper/baziar.dart';
 import 'package:ecommerece/them_data.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'Loginscreen.dart';
+import '../Loginscreen.dart';
+
 
 class IntroductionScreen extends StatefulWidget {
   @override
@@ -19,7 +21,7 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
     height = MediaQuery.of(context).size.height;
     width = MediaQuery.of(context).size.width;
 
-    return Scaffold(
+    return width>600?WebIntroductionScreen(): Scaffold(
         body: SizedBox(
             height: height,
             width: width,

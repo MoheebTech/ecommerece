@@ -1,8 +1,10 @@
 // ignore_for_file: prefer_typing_uninitialized_variables
-
-
-import 'package:ecommerece/forgetpasword.dart';
-import 'package:ecommerece/home_page.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ecommerece/admin_pannel/mobile_admin_pannel/mobile_admin_Loginscreen.dart';
+import 'package:ecommerece/admin_pannel/web_admin_Loginscreen.dart';
+import 'package:ecommerece/mobile_app/models/userModel.dart';
+import 'package:ecommerece/mobile_app/pages/forgetpasword.dart';
+import 'package:ecommerece/mobile_app/home_page.dart';
 import 'package:ecommerece/mobile_app/models/static_value.dart';
 import 'package:ecommerece/mobile_app/pages/singup.dart';
 import 'package:ecommerece/mobile_app/pages/textformfield.dart';
@@ -16,13 +18,11 @@ class Loginscreen extends StatefulWidget {
   @override
   _LoginscreenState createState() => _LoginscreenState();
 }
-
 class _LoginscreenState extends State<Loginscreen> {
   TextEditingController emailcontroller = TextEditingController();
   TextEditingController passcontroller = TextEditingController();
-
   TextEditingController namecontroller = TextEditingController();
-
+FirebaseFirestore firebaseFirestore=FirebaseFirestore.instance;
   var height, width;
   bool islogin = false;
   bool hide=true;
@@ -33,15 +33,14 @@ class _LoginscreenState extends State<Loginscreen> {
     passcontroller.text.isEmpty;
     setState(() {
       islogin = true;
- 
-
     });
     super.initState();
   }
 
-  addloginDataToSf() async {
+ // shared prefrence
+    void addloginDataToSf() async {
     final prefs = await SharedPreferences.getInstance();
-    prefs.setInt('loginId', 1);
+    prefs.setString('UserId', StaticDate.uid!);
   }
 
   final _formKey = GlobalKey<FormState>();
@@ -50,24 +49,46 @@ class _LoginscreenState extends State<Loginscreen> {
 
   signin() async {
     try {
-      UserCredential user = await _auth.signInWithEmailAndPassword(
+      UserCredential userCredential = await _auth.signInWithEmailAndPassword(
           email: emailcontroller.text, password: passcontroller.text);
-
-      if (user.user != null) {
-        StaticDate.uid = user.user!.uid;
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) =>  HomePage()));
-
-        Fluttertoast.showToast(
-            msg: "Login Successfully",
+          var user=await _auth.currentUser;
+        StaticDate.uid=user!.uid;
+  await firebaseFirestore.collection("users").doc(StaticDate.uid).get().then((value) {
+    setState(() {
+         if(value.data()==null){
+            Fluttertoast.showToast(
+            msg: "Dont't have an account Signup ",
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            gravity: ToastGravity.CENTER,
+            fontSize: 17,
+            timeInSecForIosWeb: 1,
+            toastLength: Toast.LENGTH_SHORT);
+              addloginDataToSf();
+         }else{
+          var usermodel=UserModel.fromMap(value.data()!);
+          String status=usermodel.status!;
+          if(user!=null){
+            if(status=="user"){
+                Navigator.push(context,
+            MaterialPageRoute(builder: (context) =>  HomePage()));
+            }
+                 Fluttertoast.showToast(
+            msg: "User Login Successfully",
             backgroundColor: Colors.green,
             textColor: Colors.white,
             gravity: ToastGravity.CENTER,
             fontSize: 17,
             timeInSecForIosWeb: 1,
             toastLength: Toast.LENGTH_SHORT);
-        postdatatoSF(user.user!.uid);
-      }
+           addloginDataToSf();
+            }
+          }
+         
+
+    });
+  });
+    
     } on FirebaseAuthException catch (e) {
       switch (e.code) {
         case "invalid-email":
@@ -103,18 +124,18 @@ class _LoginscreenState extends State<Loginscreen> {
     }
   }
     // shared prefrence
-  void postdatatoSF(String uid) async {
-    SharedPreferences sharedprfrence = await SharedPreferences.getInstance();
-    sharedprfrence.setString('UserID', uid);
-    // print(StaaticVariable.uid);
-  }
+  // void postdatatoSF(String uid) async {
+  //   SharedPreferences sharedprfrence = await SharedPreferences.getInstance();
+  //   sharedprfrence.setString('userID', uid);
+  //   // print(StaaticVariable.uid);
+  // }
 
   @override
   Widget build(BuildContext context) {
     height = MediaQuery.of(context).size.height;
     width = MediaQuery.of(context).size.width;
 
-    return Scaffold(
+    return width>600? WebAdminLogin():Scaffold(
         body: Form(
             key: _formKey,
             child: Stack(
@@ -152,12 +173,28 @@ class _LoginscreenState extends State<Loginscreen> {
                             // color: Colors.amber,
                             child: Center(
                                 child: 
-                                     Text(
-                                        'WELCOME BACK!',
-                                        style: TextStyle(
-                                            fontSize: width * 0.09,
-                                            color: MyThemeClass.secoundryColor),
-                                      )
+                                     Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                       children: [
+                                         Text(
+                                            'User ',
+                                            style: TextStyle(
+                                                fontSize: width * 0.09,
+                                                color: MyThemeClass.secoundryColor),
+                                          ),
+                                           InkWell(
+                                            onTap: (){
+                                              Navigator.push(context, MaterialPageRoute(builder: (context)=>MobileAdminLogin()));
+                                            },
+                                             child: Text(
+                                              'Admin?',
+                                              style: TextStyle(
+                                                  fontSize: width * 0.09,
+                                                  color: MyThemeClass.secoundryColor),
+                                                                                     ),
+                                           ),
+                                       ],
+                                     )
                                    
                           
                             ),)),

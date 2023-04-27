@@ -1,4 +1,4 @@
-import 'package:ecommerece/cart.dart';
+import 'package:ecommerece/mobile_app/pages/cart.dart';
 import 'package:ecommerece/mobile_app/pages/new_arrivals.dart';
 import 'package:ecommerece/them_data.dart';
 import 'package:flutter/material.dart';

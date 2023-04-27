@@ -1,4 +1,5 @@
-class HomePageModelClass {
+class HomePageModelClass 
+{
   String images;
   String name;
   int amount;
@@ -11,7 +12,8 @@ class HomePageModelClass {
       required this.name,
       required this.amount,
       required this.count,
-      required this.totalPrice});
+      required this.totalPrice
+      });
   static List<HomePageModelClass> homePageModelClass = [
     HomePageModelClass(
         images: 'images/brown1.jpg',

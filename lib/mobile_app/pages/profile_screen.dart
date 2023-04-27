@@ -1,7 +1,5 @@
-import 'dart:ffi';
-
-import 'package:ecommerece/Add_Card.dart';
-import 'package:ecommerece/Loginscreen.dart';
+import 'package:ecommerece/mobile_app/Add_Card.dart';
+import 'package:ecommerece/mobile_app/Loginscreen.dart';
 import 'package:ecommerece/mobile_app/pages/Details.dart';
 import 'package:ecommerece/mobile_app/pages/Notification.dart';
 import 'package:ecommerece/mobile_app/pages/Order.dart';
@@ -24,21 +22,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
   //   final prefs = await SharedPreferences.getInstance();
   //   prefs.remove('loginId');
   // }
-  void logout() async {
-    await auth.signOut();
+    logout()async{
+  await auth.signOut();
     clearSF();
-    // ignore: use_build_context_synchronously
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) =>  Loginscreen(),
-        ));
-  }
+     Navigator.push(context, MaterialPageRoute(builder: (context)=>Loginscreen()));
+    }
 
-  void clearSF() async {
-    SharedPreferences sharedprfrence = await SharedPreferences.getInstance();
-    sharedprfrence.getKeys();
-    sharedprfrence.clear();
+  clearSF()async{
+     SharedPreferences sharedPreferences=await SharedPreferences.getInstance();
+     sharedPreferences.getKeys();
+     sharedPreferences.clear();
   }
 
   @override

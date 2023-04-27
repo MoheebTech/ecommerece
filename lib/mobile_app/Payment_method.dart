@@ -1,15 +1,16 @@
 // ignore_for_file: prefer_typing_uninitialized_variables
 
-import 'package:ecommerece/conter_controller.dart';
+import 'package:ecommerece/admin_pannel/admin_model/product_model.dart';
+import 'package:ecommerece/mobile_app/pages/conter_controller.dart';
 import 'package:ecommerece/mobile_app/model_classes/homepage_modelclass.dart';
-import 'package:ecommerece/placedorder.dart';
+import 'package:ecommerece/mobile_app/placedorder.dart';
 import 'package:ecommerece/them_data.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 // ignore: must_be_immutable
 class PaymentMethod extends StatefulWidget {
-  HomePageModelClass model;
+  ProductModel model;
   PaymentMethod({Key? key, required this.model}) : super(key: key);
 
   @override

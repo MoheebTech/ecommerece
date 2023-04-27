@@ -33,9 +33,43 @@
   <link rel="manifest" href="manifest.json">
 </head>
 <body>
+  
   <!-- This script installs service_worker.js to provide PWA functionality to
        application. For more information, see:
        https://developers.google.com/web/fundamentals/primers/service-workers -->
+       <script type="module">
+        import { initializeApp } from 'firebase/app';
+                import { getAuth } from "firebase/auth";
+                import { getFirestore } from "firebase/firestore";
+
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-analytics.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+      
+        // Your web app's Firebase configuration
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        const firebaseConfig = {
+          apiKey: "AIzaSyDDCC_Fj4DaUXh4KA3pKzjl9y-JzIdL_B0",
+          authDomain: "lundaapp.firebaseapp.com",
+          projectId: "lundaapp",
+          storageBucket: "lundaapp.appspot.com",
+          messagingSenderId: "267474835672",
+          appId: "1:267474835672:web:a5c2d8d2ac9ed03b04dfad",
+          measurementId: "G-HFPDD8BDT2"
+        };
+      
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+           const auth = getAuth(app);
+            const db = getFirestore();
+       export const storage = getStorage(app);
+
+      </script>
+      <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+      <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-firestore.js"></script>
   <script>
     var serviceWorkerVersion = null;
     var scriptLoaded = false;

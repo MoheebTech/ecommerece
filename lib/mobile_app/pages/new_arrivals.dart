@@ -1,6 +1,7 @@
 
-import 'package:ecommerece/Payment_method.dart';
-import 'package:ecommerece/cart.dart';
+import 'package:ecommerece/admin_pannel/admin_model/product_model.dart';
+import 'package:ecommerece/mobile_app/Payment_method.dart';
+import 'package:ecommerece/mobile_app/pages/cart.dart';
 import 'package:ecommerece/mobile_app/model_classes/New_Arrivals_modelclass.dart';
 import 'package:ecommerece/mobile_app/model_classes/homepage_modelclass.dart';
 import 'package:ecommerece/them_data.dart';
@@ -290,14 +291,14 @@ class _NewArrivalState extends State<NewArrival> {
                                         alignment: Alignment.bottomRight,
                                         child: InkWell(
                                           onTap: () {
-                                            HomePageModelClass model =
-                                                HomePageModelClass(
-                                                    amount:
+                                            ProductModel model =
+                                                ProductModel(
+                                                    price:
                                                         myList[index].amount,
-                                                    totalPrice:
+                                                    totalprice:
                                                         myList[index].amount,
-                                                    images: myList[index].image,
-                                                    name: myList[index].name,
+                                                  //  imageUrls: myList[index].image,
+                                                    productname: myList[index].name,
                                                     count: 1);
 
                                             Navigator.push(

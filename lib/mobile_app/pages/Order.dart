@@ -1,4 +1,4 @@
-import 'package:ecommerece/Orderdetail.dart';
+import 'package:ecommerece/mobile_app/Orderdetail.dart';
 import 'package:ecommerece/mobile_app/model_classes/order_modelclass.dart';
 import 'package:ecommerece/mobile_app/pages/home.dart';
 import 'package:ecommerece/mobile_app/pages/rating_screen.dart';

@@ -1,8 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ecommerece/admin_pannel/admin_model/admin_model.dart';
+import 'package:ecommerece/admin_pannel/mobile_admin_pannel/mob_admin_home_sceen.dart';
+import 'package:ecommerece/admin_pannel/web/web_admin_home.dart';
 import 'package:ecommerece/admin_pannel/web/web_singup.dart';
 import 'package:ecommerece/mobile_app/home_page.dart';
 import 'package:ecommerece/mobile_app/models/static_value.dart';
 import 'package:ecommerece/mobile_app/models/userModel.dart';
+import 'package:ecommerece/mobile_app/pages/forgetpasword.dart';
+import 'package:ecommerece/mobile_app/pages/singup.dart';
 import 'package:ecommerece/mobile_app/pages/textformfield.dart';
 import 'package:ecommerece/them_data.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -10,14 +15,14 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-class SignUp extends StatefulWidget {
-  const SignUp({Key? key}) : super(key: key);
+class MobileAdminSignUp extends StatefulWidget {
+  const MobileAdminSignUp({Key? key}) : super(key: key);
 
   @override
-  State<SignUp> createState() => _SignUpState();
+  State<MobileAdminSignUp> createState() => _MobileAdminSignUpState();
 }
 
-class _SignUpState extends State<SignUp> {
+class _MobileAdminSignUpState extends State<MobileAdminSignUp> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController emailcontroller = TextEditingController();
   TextEditingController passcontroller = TextEditingController();
@@ -40,21 +45,21 @@ class _SignUpState extends State<SignUp> {
        
     });
   }
-/// signup method
+/// MobileAdminSignUp method
 /// 
          final FirebaseAuth _auth = FirebaseAuth.instance;
-               Future signup() async {
+               Future mobileAdminsignUp() async {
   
     try {
       UserCredential userCredential =
           await _auth.createUserWithEmailAndPassword(
               email:   emailcontroller.text, password: passcontroller.text );
       if (userCredential.user != null) {
-       // getToken();
+     //   getToken();
 
         print(' tocken id =${ StaticDate.tockenId.toString() }');
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => HomePage()));
+            context, MaterialPageRoute(builder: (context) => width<600?MobileAdminHome():WebAdminHome()));
         Fluttertoast.showToast(
           msg: "Registration Successfully",
           backgroundColor: Colors.green,
@@ -105,21 +110,21 @@ class _SignUpState extends State<SignUp> {
 // post datatoDB
         final FirebaseFirestore firebaseFirestore=FirebaseFirestore.instance;
          void postdatatoDB(String id)async{
-         UserModel model=UserModel(
+         AdminModel model=AdminModel(
         
          email: emailcontroller.text,
          password: passcontroller.text,
          name: namecontroller.text,
          tockenId: StaticDate.tockenId,
         uid: id,
-        status: "user"
+        status: "Admin"
          );
-         await firebaseFirestore.collection('users').doc(id).set(model.toMap());
+         await firebaseFirestore.collection('Admins').doc(id).set(model.toMap());
          }
 
   @override
   void initState() {
-  //   getToken();
+   //  getToken();
     print(" tocken id =${StaticDate.tockenId.toString()}");
    
     super.initState();  
@@ -128,7 +133,7 @@ class _SignUpState extends State<SignUp> {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
 
-    return width>600? WebAdminSignUp():Scaffold(
+    return width>600?WebAdminSignUp():Scaffold(
         body: Form(
             key: _formKey,
             child: Stack(
@@ -166,7 +171,7 @@ class _SignUpState extends State<SignUp> {
                             // color: Colors.amber,
                             child: Center(
                                 child: Text(
-                              'WellCome User',
+                              'WELCOME Admin!',
                               style: TextStyle(
                                   fontSize: width * 0.09,
                                   color: MyThemeClass.secoundryColor),
@@ -305,7 +310,7 @@ class _SignUpState extends State<SignUp> {
                                           },
                                         ),
                                         ////-----------------
-      /// signup button
+      /// MobileAdminSignUp button
                                         ///
                                         Padding(
                                             padding: EdgeInsets.only(
@@ -314,7 +319,7 @@ class _SignUpState extends State<SignUp> {
                                               onTap: () {
                                                 // addloginDataToSf();
                                             
-                                               signup();
+                                               mobileAdminsignUp();
                                                
                                              
                                              
@@ -349,7 +354,7 @@ class _SignUpState extends State<SignUp> {
                             width: width * 0.4,
                             child: Center(
                                 child: Text(
-                              'Or Signup With',
+                              'Or SignUp With',
                               style: TextStyle(
                                   fontSize: width * 0.045,
                                   color: MyThemeClass.secoundryColor),
@@ -396,4 +401,12 @@ class _SignUpState extends State<SignUp> {
               ],
             )));
   }
+  
+}
+class  AdminStaticVeriable{
+
+  static String uid='';
+  static String admintokanID='';
+
+  static AdminModel adminModel = AdminModel();
 }

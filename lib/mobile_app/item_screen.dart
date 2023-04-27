@@ -1,13 +1,14 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:ecommerece/Payment_method.dart';
-import 'package:ecommerece/cart.dart';
+import 'package:ecommerece/admin_pannel/admin_model/product_model.dart';
+import 'package:ecommerece/mobile_app/Payment_method.dart';
+import 'package:ecommerece/mobile_app/pages/cart.dart';
 import 'package:ecommerece/mobile_app/model_classes/homepage_modelclass.dart';
 import 'package:ecommerece/mobile_app/model_classes/slider_modelclass.dart';
 import 'package:ecommerece/them_data.dart';
 import 'package:flutter/material.dart';
 
 class ItemScreen extends StatefulWidget {
-  HomePageModelClass model;
+  ProductModel model;
   ItemScreen({required this.model});
   @override
   _ItemScreenState createState() => _ItemScreenState();
@@ -189,7 +190,7 @@ class _ItemScreenState extends State<ItemScreen> {
                     Padding(
                       padding: EdgeInsets.only(left: width * 0.02),
                       child: Text(
-                        widget.model.name,
+                        widget.model.productname!,
                         style: TextStyle(
                           fontSize: width * 0.06,
                           fontWeight: FontWeight.bold,
@@ -246,7 +247,7 @@ class _ItemScreenState extends State<ItemScreen> {
                   child: Padding(
                     padding: EdgeInsets.only(left: width * 0.02),
                     child: Text(
-                      '\$${widget.model.amount}',
+                      '\$${widget.model.price}',
                       style: TextStyle(
                         fontSize: width * 0.06,
                         fontWeight: FontWeight.bold,

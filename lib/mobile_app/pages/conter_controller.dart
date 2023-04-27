@@ -1,3 +1,4 @@
+import 'package:ecommerece/admin_pannel/admin_model/product_model.dart';
 import 'package:ecommerece/mobile_app/model_classes/homepage_modelclass.dart';
 import 'package:get/get.dart';
 
@@ -12,7 +13,7 @@ class ConterController extends GetxController {
   // int price = 299;
   // int price1 = 199;
   int totalprice = 0;
-  List<HomePageModelClass> cartItemsList = [];
+  List<ProductModel> cartItemsList = [];
 
   decrement(int index, int item, int price) {
     print('decre Call');
@@ -21,7 +22,7 @@ class ConterController extends GetxController {
     var p = i * price;
     print(p);
     cartItemsList[index].count = i;
-    cartItemsList[index].totalPrice = p;
+    cartItemsList[index].totalprice = p;
     update();
   }
 
@@ -32,7 +33,7 @@ class ConterController extends GetxController {
     var p = i * price;
     print(p);
     cartItemsList[index].count = i;
-    cartItemsList[index].totalPrice = p;
+    cartItemsList[index].totalprice = p;
     update();
   }
 
@@ -41,14 +42,14 @@ class ConterController extends GetxController {
     totalprice = 0;
 
     for (int i = 0; i < cartItemsList.length; i++) {
-      totalprice = totalprice + cartItemsList[i].totalPrice;
+      totalprice = totalprice + cartItemsList[i].totalprice!;
     }
 
     update();
   }
 
 //add item to list
-  addDataTOCart(HomePageModelClass model) {
+  addDataTOCart(ProductModel model) {
     cartItemsList.add(model);
     update();
   }
@@ -57,11 +58,11 @@ class ConterController extends GetxController {
   List<bool> valuesChecking = [];
 
 // for check item is present?
-  Future<ResponseModelClass?> checkIfPresent(HomePageModelClass model) async {
+  Future<ResponseModelClass?> checkIfPresent(ProductModel model) async {
     ResponseModelClass? responsemodel;
 
     for (int i = 0; i < cartItemsList.length; i++) {
-      if (cartItemsList[i].name == model.name) {
+      if (cartItemsList[i].productname == model.productname) {
         print("item found: do not add");
         print(i);
         responsemodel = ResponseModelClass(index: i, isPresent: true);
@@ -75,11 +76,11 @@ class ConterController extends GetxController {
   }
 
   //update Data in the list
-  updateDataToList(HomePageModelClass model, int i) {
+  updateDataToList(ProductModel model, int i) {
     print(i);
     print('inside update');
-    cartItemsList[i].totalPrice += model.totalPrice;
-    cartItemsList[i].count += model.count;
+    cartItemsList[i].totalprice = model.totalprice!;
+    cartItemsList[i].count = model.count!;
 
     update();
   }

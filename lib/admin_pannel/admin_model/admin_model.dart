@@ -1,13 +1,13 @@
 import 'dart:convert';
 
-class UserModel {
-  String? name;
+class AdminModel {
+   String? name;
   String? email;
   String? password;
  String? status;
   String? tockenId;
   String? uid;
-  UserModel({
+  AdminModel({
     this.name,
     this.email,
     this.password,
@@ -16,7 +16,7 @@ class UserModel {
     this.uid,
   });
 
-  UserModel copyWith({
+  AdminModel copyWith({
     String? name,
     String? email,
     String? password,
@@ -24,7 +24,7 @@ class UserModel {
     String? tockenId,
     String? uid,
   }) {
-    return UserModel(
+    return AdminModel(
       name: name ?? this.name,
       email: email ?? this.email,
       password: password ?? this.password,
@@ -59,8 +59,8 @@ class UserModel {
     return result;
   }
 
-  factory UserModel.fromMap(Map<String, dynamic> map) {
-    return UserModel(
+  factory AdminModel.fromMap(Map<String, dynamic> map) {
+    return AdminModel(
       name: map['name'],
       email: map['email'],
       password: map['password'],
@@ -72,18 +72,18 @@ class UserModel {
 
   String toJson() => json.encode(toMap());
 
-  factory UserModel.fromJson(String source) => UserModel.fromMap(json.decode(source));
+  factory AdminModel.fromJson(String source) => AdminModel.fromMap(json.decode(source));
 
   @override
   String toString() {
-    return 'UserModel(name: $name, email: $email, password: $password, status: $status, tockenId: $tockenId, uid: $uid)';
+    return 'AdminModel(name: $name, email: $email, password: $password, status: $status, tockenId: $tockenId, uid: $uid)';
   }
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
   
-    return other is UserModel &&
+    return other is AdminModel &&
       other.name == name &&
       other.email == email &&
       other.password == password &&
