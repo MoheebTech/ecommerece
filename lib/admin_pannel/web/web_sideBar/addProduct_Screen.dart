@@ -29,6 +29,9 @@ class _AddProductState extends State<AddProduct> {
   TextEditingController pricecontr=TextEditingController();
   TextEditingController serialcodecontr=TextEditingController();
   TextEditingController discountpriceC=TextEditingController();
+  
+  TextEditingController totalPrice=TextEditingController();
+  TextEditingController count=TextEditingController();
   bool isOnSale=false;
   bool isPopular=false;
   bool isFavourit=false;
@@ -45,8 +48,11 @@ class _AddProductState extends State<AddProduct> {
     "GROCERY",
     "SHOES",
     "GARMENTS",
-    "PHARMACY"
-    "GARMENTS"
+    "PHARMACY",
+    "Casmatics",
+    "Computer",
+     "Electronic",
+       "Cloths"
   ];
   @override
   Widget build(BuildContext context) {
@@ -131,6 +137,7 @@ class _AddProductState extends State<AddProduct> {
                     ),
               isExpanded: true,
                  value: dropdownValue,
+                 
                  onChanged: ( newValue) {
                           setState(() {
                        dropdownValue = newValue.toString();
@@ -138,7 +145,7 @@ class _AddProductState extends State<AddProduct> {
                      },
           items: categories
           .map((e)=>DropdownMenuItem<String>(
-      
+        
           value: e,
           child: Text(e),
           
@@ -176,6 +183,7 @@ class _AddProductState extends State<AddProduct> {
                   },
           ),
            ),
+           
            //   Details field 
             lableTextname("Details"),
            Container(
@@ -241,8 +249,58 @@ class _AddProductState extends State<AddProduct> {
               ),
                )
             ],
+           ),
+      Row(
+           //  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Padding(
+                padding: EdgeInsets.only(right: width*0.01),
+                child: Column(
+                   crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+      //   price field              
+                 lableTextname("Total Price"),
+            Container(
+            width: width*0.14,
+             child: Textformfield(
+              controller: totalPrice,
+          abscureText: false,
+          validation: (value){
+                    if(value!.isEmpty){
+                      return "should not be empty";
+                    }
+                    return null;
+                  },
+          ),
+           ),
+                  ],
+                ),
+              ),
+               Padding(
+                 padding:  EdgeInsets.only(left: width*0.01),
+                 child: Column(
+                   crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+        //  discount field          
+                 lableTextname("Count"),
+            Container(
+            width: width*0.14,
+             child: Textformfield(
+              controller: count,
+          abscureText: false,
+          validation: (value){
+                    if(value!.isEmpty){
+                      return "should not be empty";
+                    }
+                    return null;
+                  },
+          ),
+           ),
+                  ],
+              ),
+               )
+            ],
            )
-      
              ],
            ),
            Column(
@@ -368,13 +426,8 @@ class _AddProductState extends State<AddProduct> {
         image.addAll(pickedFile);
       });
     }else{
-      print('select image');
-    }
-
-  }
- 
+      print('select image');}}
   /// post image on firebase 
-  /// 
     Future postImage(XFile? imagefile)async{
      String urls;
   //   await Permission.photos.request();
@@ -415,7 +468,8 @@ class _AddProductState extends State<AddProduct> {
      imageUrls: imageUrls,
      isOnSale: isOnSale,
      isPopular: isPopular,
-
+    totalprice: int.tryParse(totalPrice.text),
+    count:int.tryParse(count.text), 
     );
    await firebaseFirestore.collection('Products').doc(uuid).set(productModel.toMap());
     Fluttertoast.showToast(
@@ -478,6 +532,8 @@ class _AddProductState extends State<AddProduct> {
   discountpriceC.clear();
   serialcodecontr.clear();
   brandcontroller.clear();
+  totalPrice.clear();
+  count.clear();
  }
  }
   

@@ -22,7 +22,7 @@ class _UpdateProductState extends State<UpdateProduct> {
     var height=MediaQuery.of(context).size.height;
      var width=MediaQuery.of(context).size.width;
     return Scaffold(
-      
+      backgroundColor: MyThemeClass.primaryColor,
       body: Column(
         children: [
          
@@ -82,10 +82,13 @@ class _UpdateProductState extends State<UpdateProduct> {
                                                             productname: data[index].get('productname'),
                                                             selerialCode: data[index].get('selerialCode'),
                                                             brand: data[index].get("brand"),
-
+                                                            totalprice: data[index].get('totalprice'),
+                                                            count: data[index].get("count"),
                                                           ),
                                                         )));
-                                                        print("image :"+data[index]["imageUrls"]);
+                                                         print("image :"+data[index]["imageUrls"]);
+                                                         print(" count"+data[index].get("brand"),);
+                                                         print(" totalprice"+data[index].get("totalprice"),);
                                                       },
                                                       child:  Icon(
                                                         Icons.edit,
@@ -101,7 +104,6 @@ class _UpdateProductState extends State<UpdateProduct> {
                                                     color:MyThemeClass.secoundryColor,
                                                     fontSize: 20),
                                               ),
-                                             
                                               ),
                                             );
                               } )):Center(child: Text("No Data Exist",style: TextStyle(color: MyThemeClass.secoundryColor),),)

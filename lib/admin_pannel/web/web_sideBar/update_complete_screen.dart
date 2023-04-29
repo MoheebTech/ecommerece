@@ -7,7 +7,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:sizer/sizer.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../mobile_app/pages/textformfield.dart';
@@ -36,6 +35,9 @@ class _UpdateCompleteScreenState extends State<UpdateCompleteScreen> {
   TextEditingController pricecontr=TextEditingController();
   TextEditingController serialcodecontr=TextEditingController();
   TextEditingController discountpriceC=TextEditingController();
+  
+  TextEditingController totalPrice=TextEditingController();
+  TextEditingController count=TextEditingController();
   bool isOnSale=false;
   bool isPopular=false;
   bool isFavourit=false;
@@ -49,11 +51,14 @@ class _UpdateCompleteScreenState extends State<UpdateCompleteScreen> {
    String dropdownValue = 'GROCERY';
 
    List categories=[
-    "GROCERY",
+     "GROCERY",
     "SHOES",
     "GARMENTS",
-    "PHARMACY"
-    "GARMENTS"
+    "PHARMACY",
+    "Casmatics",
+    "Computer",
+     "Electronic",
+       "Cloths"
   ];
   /// update product
   /// 
@@ -62,7 +67,7 @@ try{
          await uploadImage();
        await firebaseFirestore.collection("Products").doc(id).update(
         {"category":dropdownValue,
-        "price":pricecontr.text,
+        "price":int.parse(pricecontr.text),
         "discountprice":discountpriceC.text,
         "productname":productnamecontr.text,
         "selerialCode":serialcodecontr.text,
@@ -71,6 +76,9 @@ try{
         "isPopular":isPopular,
         "imageUrls":imageUrls,
         "brand":brandcontroller.text,
+        "count":int.parse(count.text),
+        "totalprice":int.parse(totalPrice.text),
+
         }
        );
         Fluttertoast.showToast(
@@ -104,14 +112,14 @@ try{
     productnamecontr.text=widget.productModel!.productname!;
     serialcodecontr.text=widget.productModel!.selerialCode!;
     detailcontr.text=widget.productModel!.details!;
-    
+    count.text=widget.productModel!.count! .toString();
+    totalPrice.text=widget.productModel!.totalprice!.toString() ;
      brandcontroller.text=widget.productModel!.brand!;
    // isFavourit=widget.productModel!.isFavourit!;
     isOnSale=widget.productModel!.isOnSale!;
     isPopular=widget.productModel!.isPopular!;
 
   //  imageUrls=widget.productModel!.imageUrls!;
-    // TODO: implement initState
     super.initState();
     
   }
@@ -308,8 +316,59 @@ try{
               ),
                )
             ],
+           ),
+       Row(
+           //  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+
+              Padding(
+                padding: EdgeInsets.only(right: width*0.01),
+                child: Column(
+                   crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+      //   price field              
+                 lableTextname("Toatal Price"),
+            Container(
+            width: width*0.14,
+             child: Textformfield(
+              controller: totalPrice,
+          abscureText: false,
+          validation: (value){
+                    if(value!.isEmpty){
+                      return "should not be empty";
+                    }
+                    return null;
+                  },
+          ),
+           ),
+                  ],
+                ),
+              ),
+               Padding(
+                 padding:  EdgeInsets.only(left: width*0.01),
+                 child: Column(
+                   crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+        //  discount field          
+                 lableTextname("Count"),
+            Container(
+            width: width*0.14,
+             child: Textformfield(
+              controller: count,
+          abscureText: false,
+          validation: (value){
+                    if(value!.isEmpty){
+                      return "should not be empty";
+                    }
+                    return null;
+                  },
+          ),
+           ),
+                  ],
+              ),
+               )
+            ],
            )
-      
              ],
            ),
            Column(

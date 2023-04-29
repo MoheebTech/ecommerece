@@ -1,6 +1,3 @@
-
-import 'dart:math';
-
 import 'package:ecommerece/admin_pannel/web/web_admin_home.dart';
 import 'package:ecommerece/admin_pannel/web_admin_Loginscreen.dart';
 import 'package:ecommerece/mobile_app/splash_screen.dart';
@@ -13,10 +10,10 @@ import 'admin_pannel/web/web_sideBar/cartProduct.dart';
 import 'admin_pannel/web/web_sideBar/dashbord_screen.dart';
 import 'admin_pannel/web/web_sideBar/deleteProduct_screen.dart';
 import 'admin_pannel/web/web_sideBar/updateProduct_screen.dart';
-//@dart=2.9
+
 
 void main() async{
-
+  
 WidgetsFlutterBinding.ensureInitialized();
 if(kIsWeb){
 await Firebase.initializeApp(
@@ -28,9 +25,8 @@ options:const FirebaseOptions(
           storageBucket: "lundaapp.appspot.com",
           messagingSenderId: "267474835672",
           appId: "1:267474835672:web:a5c2d8d2ac9ed03b04dfad",
-  
-  )
- );
+         )
+        );
 }else{
 
 await Firebase.initializeApp();

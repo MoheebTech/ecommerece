@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecommerece/admin_pannel/admin_model/admin_model.dart';
-import 'package:ecommerece/admin_pannel/mobile_admin_pannel/mob_admin_home_sceen.dart';
 import 'package:ecommerece/admin_pannel/mobile_admin_pannel/mobile_admin_singup.dart';
 import 'package:ecommerece/admin_pannel/web/web_admin_home.dart';
 import 'package:ecommerece/admin_pannel/web/webintroduction_screen.dart';
@@ -11,10 +10,6 @@ import 'package:ecommerece/mobile_app/pages/introduction_screen.dart';
 import 'package:ecommerece/them_data.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import '../admin_pannel/web_admin_Loginscreen.dart';
-import 'Loginscreen.dart';
-
 class SplashScreen extends StatefulWidget {
   @override
   State<SplashScreen> createState() => _SplashScreenState();
@@ -45,7 +40,7 @@ void getuserdata(v) async {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => width>600?WebAdminHome():MobileAdminHome(),
+                    builder: (context) =>WebAdminHome(),
                   ),
                 );
                 print(" value of admin ${v}");

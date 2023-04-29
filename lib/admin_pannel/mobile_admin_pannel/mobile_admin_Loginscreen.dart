@@ -3,7 +3,6 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecommerece/admin_pannel/admin_model/admin_model.dart';
-import 'package:ecommerece/admin_pannel/mobile_admin_pannel/mob_admin_home_sceen.dart';
 import 'package:ecommerece/admin_pannel/mobile_admin_pannel/mobile_admin_singup.dart';
 import 'package:ecommerece/admin_pannel/web/web_admin_home.dart';
 import 'package:ecommerece/mobile_app/Loginscreen.dart';
@@ -14,7 +13,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../web_admin_Loginscreen.dart';
 
 class MobileAdminLogin extends StatefulWidget {
@@ -80,8 +78,7 @@ class _MobileAdminLoginState extends State<MobileAdminLogin> {
                if(users!=null){
                 if(status=="Admin"){
                 Navigator.push(
-            context, MaterialPageRoute(builder: (context) =>  width<600?MobileAdminHome():WebAdminHome()));
-
+            context, MaterialPageRoute(builder: (context) =>  WebAdminHome()));
         Fluttertoast.showToast(
             msg: " Admin Login Successfully",
             backgroundColor: Colors.green,
@@ -137,7 +134,6 @@ class _MobileAdminLoginState extends State<MobileAdminLogin> {
   //   sharedprfrence.setString('AdminId', uid);
   //   // print(StaaticVariable.uid);
   // }
-
   @override
   Widget build(BuildContext context) {
     height = MediaQuery.of(context).size.height;
@@ -253,9 +249,7 @@ class _MobileAdminLoginState extends State<MobileAdminLogin> {
                                     ],
                                   ),
                                 ),
-
 // email field
-
                                 Expanded(
                                   child: Column(
                                     mainAxisAlignment:

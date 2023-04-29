@@ -1,12 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecommerece/admin_pannel/admin_model/admin_model.dart';
-import 'package:ecommerece/admin_pannel/mobile_admin_pannel/mob_admin_home_sceen.dart';
-import 'package:ecommerece/admin_pannel/mobile_admin_pannel/mobile_admin_singup.dart';
 import 'package:ecommerece/admin_pannel/web/web_admin_home.dart';
 import 'package:ecommerece/admin_pannel/web_admin_Loginscreen.dart';
-import 'package:ecommerece/mobile_app/home_page.dart';
 import 'package:ecommerece/mobile_app/models/static_value.dart';
-import 'package:ecommerece/mobile_app/models/userModel.dart';
 import 'package:ecommerece/mobile_app/pages/singup.dart';
 import 'package:ecommerece/mobile_app/pages/textformfield.dart';
 import 'package:ecommerece/them_data.dart';
@@ -57,7 +53,7 @@ class _WebAdminSignUpState extends State<WebAdminSignUp> {
 
         print(' tocken id =${StaticDate.tockenId.toString()}');
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => width>600? WebAdminHome():MobileAdminHome()));
+            context, MaterialPageRoute(builder: (context) =>  WebAdminHome()));
         Fluttertoast.showToast(
           msg: "Registration Successfully",
           backgroundColor: Colors.green,

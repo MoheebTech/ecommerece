@@ -19,52 +19,66 @@ class _HomeState extends State<Home> {
    FirebaseFirestore firebaseFirestore=FirebaseFirestore.instance;
  bool leading=true;
  final imagepicker=ImagePicker();
-  List<XFile> image=[];
+ List<XFile> image=[];
   List<dynamic> imageUrls=[];
-     List<ProductModel>productlist=[];
-          getProducts() async {
-    await FirebaseFirestore.instance.collection("Products").get().then((value) {
-          value.docs.forEach((element) {
-            setState(() {
-             productlist.add(ProductModel.fromMap(element.data())); 
-            });
-          });
-    });
-    // await FirebaseFirestore.instance
-    //     .collection('Products')
-    //     .get()
-    //     .then((QuerySnapshot? snapshot) {
-    //   snapshot!.docs.forEach((e) {
-    //     if(e.exists){
-    //     setState(() {
-    //         productlist.add(
-    //         ProductModel(            
-    //         category: e['category'],
-    //            details: e['details'],
-    //               discountprice: e['discountprice'],
-    //           //   id: e['id'],
-    //              imageUrls: e["imageUrls"],
-    //                isFavourit: e['isFavourit'],
-    //                   isOnSale: e['isOnSale'],
-    //                   isPopular: e['isPopular'],
-    //                      price: e['price'],
-    //                     productname: e['productname'],
-    //                      selerialCode: e['selerialCode'],
-    //                      brand: e["brand"],
+    
+  //         getProducts() async {
+  //           QuerySnapshot snapshot=await  FirebaseFirestore.instance.collection("Products").get();
+  //           snapshot.docs.forEach((doc) {
+  //     productlist.add(ProductModel.fromMap(doc.data()as Map<String, dynamic>)); 
+  // });
+  //    print('productlist: ${productlist}');
+  //    setState(() {
+  //      leading=true;
+  //    });
+  // }
+   List<ProductModel>productlist=[];
+   getProducts() async {
+  QuerySnapshot snapshot = await FirebaseFirestore.instance.collection("Products").get();
+  snapshot.docs.forEach((doc) {
+    // for(var item in doc[imageUrls]){
+    //   if(item.isNotEmpty){
+ setState(() {
+            productlist.add(ProductModel.fromMap(doc.data() as Map<String, dynamic>)); 
+      });
+   // }
+     // }
+  });
+  print('productlist: $productlist');
 
-                                                          
-    //       )
-    //       );
+
+
+
+
+
+
+
+  // productlist[doc].imageUrls
+//  List<String> stringList = productlist.map((element) => element.toString()).toList();
+  // Converts the dynamic productlist to a string list
+  
+ // print('stringList: $stringList');
+   //  String splitvalue=stringList[]
+  setState(() {
+    leading = true;
+  });
+}
+    // getProduct() async {
+    //     FirebaseFirestore.instance.collection("Products").get().then((value) {
+    //      value.docs.forEach((element) {
+    //      setState(() {
+    //       print("image urls"+ element["imageUrls"]);
+    //      });
+    //      });
     //     });
-    //     }
-        
-    //   });
-    // });
-     print('productlist: ${productlist}');
-  }
+    // }  
   // deleteDataSf() async {
   @override
   void initState() {
+   // getProduct();
+    setState(() {
+      leading=false;
+    });
     getProducts();
  //   getuser();
   //   print("list ${productlist}");
@@ -75,11 +89,7 @@ class _HomeState extends State<Home> {
    var height = MediaQuery.of(context).size.height;
    var width = MediaQuery.of(context).size.width;
     return Scaffold(
-      body:  
-         
-
-
-          Stack(
+      body:  Stack(
                 children: [
                   Container(
                     height: height,
@@ -95,12 +105,12 @@ class _HomeState extends State<Home> {
                           elevation: 5,
                           color: MyThemeClass.primaryColor,
                           child: SizedBox(
-                            height: height * 0.1,
-                            width: width,
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
+                          height: height * 0.1,
+                          width: width,
+                          child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
                                 Padding(
                                   padding: EdgeInsets.only(left: width * 0.35),
                                   child: Container(
@@ -219,7 +229,6 @@ class _HomeState extends State<Home> {
                           ),
                         ),
                        
-                        
                         Padding(
                           padding:
                               EdgeInsets.only(top:height * 0.02, left: width * 0.05),
@@ -229,8 +238,12 @@ class _HomeState extends State<Home> {
                             color:const Color(0xff42382E),
                             child: ListView.builder(
                                 scrollDirection: Axis.horizontal,
-                               // itemCount: snapshot.data!.docs.length,
+                               itemCount: productlist.length,
                                 itemBuilder: (context, index) {
+                                    print("https://firebasestorage.googleapis.com/v0/b/lundaapp.appspot.com/o/image%2Fkeybord.jpg?alt=mdia&token=54928902-a5a3-4da8-942a-17ed17ce6d53"
+                                      //"https://firebasestorage.googleapis.com/v0/b/lundaapp.appspot.com/o/image%2Fkeybord.jpg?alt=media&token = ${productlist[index].id}"
+                                      );
+                                  ///  print("length"+productlist.length.toString());
                                   return Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Container(
@@ -241,7 +254,9 @@ class _HomeState extends State<Home> {
                                             MyThemeClass.transColor?.withOpacity(0.1),
                                         borderRadius: BorderRadius.circular(15),
                                       ),
-                                      child: Column(
+                                      child: 
+                                     leading==false?Center(child: CircularProgressIndicator()):
+                                      Column(
                                         mainAxisAlignment: MainAxisAlignment.start,
                                         crossAxisAlignment: CrossAxisAlignment.center,
                                         children: [
@@ -251,35 +266,39 @@ class _HomeState extends State<Home> {
                                             child: SizedBox(
                                               height: height * 0.23,
                                               width: width * 0.9,
-                                              child: Column(children: [
+                                              child: Column(
+                                                children:[
+                                                
                                                 Container(
                                                   height: height * 0.14,
                                                   width: width,
                                                   decoration: BoxDecoration(
-                                                    color: Colors.white,
+                                                  //  color: Colors.black26,
                                                     borderRadius:
                                                         BorderRadius.circular(15),
-                                                  //  image: DecorationImage(
-                                                   //     fit: BoxFit.cover,
-                                                     //image: NetworkImage(
-                                                     // '${snapshot.data!.docs[index].get('imageUrls')}')
-                                                   //   ),
+                                                   image: DecorationImage(
+                                                       fit: BoxFit.cover,
+                                                     image: NetworkImage(
+                                                  "${productlist[index].imageUrls}",scale: 1)
+                                                    
+                                                     ),
+                                                     
                                                   ),
                                     //             child:  Image.network(
-                                    //  snapshot.data!.docs[index].get('imageUrls'),
+                                    //  '${productlist[0].imageUrls}',
                                     //         //         height: 100,
                                     //         // width: 100,
                                     //               fit: BoxFit.cover,
                                     //          ),
+                                    //             ),)
                                                 ),
-                                               
                                                 Padding(
                                                   padding: EdgeInsets.only(
                                                       top: height * 0.01),
                                                   child: Container(
                                                       height: height * 0.03,
                                                       width: width,
-                                                      child: Text("product",
+                                                      child: Text(productlist[index].productname!,
                                                       //  '${snapshot.data!.docs[index].get('productname')}',
                                                         style: TextStyle(
                                                           fontSize: width * 0.04,
@@ -291,8 +310,8 @@ class _HomeState extends State<Home> {
                                                 Container(
                                                     height: height * 0.035,
                                                     width: width,
-                                                    child: Text("500",
-                                                     // '${snapshot.data!.docs[index].get('price')}',
+                                                    child: Text(
+                                                      '${productlist[index].price}',
                                                       style: TextStyle(
                                                         fontSize: width * 0.05,
                                                         color: MyThemeClass.whiteColor,
@@ -504,6 +523,8 @@ class _HomeState extends State<Home> {
                                   right: width * 0.05),
                               child: ListView(
                                 children: [
+
+                                 // Image.network("${productlist[0].imageUrls}"),
                                   InkWell(
                                     onTap: () {
                                       Navigator.push(
@@ -768,7 +789,8 @@ class _HomeState extends State<Home> {
                               ),
                             ),
                           ),
-                        )
+                        ),
+                       
                       ],
                     ),
                   ),

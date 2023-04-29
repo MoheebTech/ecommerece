@@ -1,10 +1,11 @@
-import 'package:ecommerece/admin_pannel/mobile_admin_pannel/mob_admin_home_sceen.dart';
+
 import 'package:ecommerece/admin_pannel/web/web_sideBar/addProduct_Screen.dart';
 import 'package:ecommerece/admin_pannel/web/web_sideBar/cartProduct.dart';
 import 'package:ecommerece/admin_pannel/web/web_sideBar/dashbord_screen.dart';
 import 'package:ecommerece/admin_pannel/web/web_sideBar/deleteProduct_screen.dart';
 import 'package:ecommerece/admin_pannel/web/web_sideBar/updateProduct_screen.dart';
 import 'package:ecommerece/admin_pannel/web_admin_Loginscreen.dart';
+import 'package:ecommerece/them_data.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_admin_scaffold/admin_scaffold.dart';
@@ -54,11 +55,11 @@ class _WebAdminHomeState extends State<WebAdminHome> {
         selectScreen =  UpdateProduct();
      });
       break;
-    case DeleteProduct.id:
-       setState(() {
-          selectScreen =  DeleteProduct();
-       });
-      break;
+    // case DeleteProduct.id:
+    //    setState(() {
+    //       selectScreen =  DeleteProduct();
+    //    });
+    //   break;
     case CartProduct.id:
       setState(() {
         selectScreen =  CartProduct();
@@ -75,41 +76,57 @@ class _WebAdminHomeState extends State<WebAdminHome> {
   Widget build(BuildContext context) {
   var height=MediaQuery.of(context).size.height;
     var width=MediaQuery.of(context).size.width;
-    return width<600?MobileAdminHome():AdminScaffold(
-      
+    return AdminScaffold(
+      backgroundColor:MyThemeClass.lightsecoundryColor,
       appBar:AppBar(
-        title: Text("Admin"),
+         backgroundColor:MyThemeClass.secoundryColor,
+        title: Text("Admin ",style: TextStyle(color: MyThemeClass.blackColor)),
         centerTitle: true,
         actions: [
           IconButton(onPressed: (){
             logout();
-          }, icon: Icon(Icons.logout))
+          }, icon: Icon(Icons.logout,color: MyThemeClass.blackColor,))
         ],
       ),
       sideBar: SideBar(
+        backgroundColor: MyThemeClass.secoundryColor,
          onSelected: ((item) {
            chooseScreen(item.route);
          }),
+         iconColor: MyThemeClass.blackColor,
         items:const [
-        AdminMenuItem(title: "DASDHBOARD",
+
+        AdminMenuItem(
+          
+          title: "DASDHBOARD",
         route: Dashboard.id,
         icon: Icons.dashboard
         ),
           AdminMenuItem(title: "ADD PRODUCT",
            route: AddProduct.id,
           icon: Icons.add),
-            AdminMenuItem(title: "DELETE PRODUCT",
-           route: DeleteProduct.id,
-            icon: Icons.delete),
+          //   AdminMenuItem(title: "DELETE PRODUCT",
+          //  route: DeleteProduct.id,
+          //   icon: Icons.delete),
               AdminMenuItem(title: "UPDATE PRODUCT",
                route: UpdateProduct.id,
                 icon: Icons.update
               ),
-                AdminMenuItem(title: "CART ITEMS",
+            
+                AdminMenuItem(
+
+                  title: "CART ITEMS",
                  route:CartProduct.id,
-                icon: Icons.shop),
+                icon: Icons.shop,),
            
       ], 
+    //  activeTextStyle:TextStyle(color: MyThemeClass.blackColor),
+      activeBackgroundColor: MyThemeClass.greenColor!,
+      //activeTextStyle: MyThemeClass.greenColor!,
+
+      activeIconColor: MyThemeClass.secoundryColor,
+      borderColor: MyThemeClass.lightsecoundryColor,
+      textStyle:  TextStyle(color: MyThemeClass.lightsecoundryColor),
       selectedRoute:WebAdminHome.id
       ), body: selectScreen,
       
