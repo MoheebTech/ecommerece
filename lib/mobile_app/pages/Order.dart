@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecommerece/mobile_app/Orderdetail.dart';
 import 'package:ecommerece/mobile_app/model_classes/order_modelclass.dart';
+import 'package:ecommerece/mobile_app/model_classes/static_value.dart';
 import 'package:ecommerece/mobile_app/pages/home.dart';
 import 'package:ecommerece/mobile_app/pages/rating_screen.dart';
 import 'package:flutter/material.dart';
@@ -11,9 +13,28 @@ class OrderClass extends StatefulWidget {
   State<OrderClass> createState() => _OrderClassState();
 }
 
-class _OrderClassState extends State<OrderClass> {
-
+class _OrderClassState extends State<OrderClass> {  
+FirebaseFirestore firebaseFirestore=FirebaseFirestore.instance;
+ //List<ProductModel>productlist=[];
+  List<OrderModelClas>orderlist=[];
+getOrders()async{
+  await firebaseFirestore.collection("Orders").where("id",isEqualTo: StaticDate.uid).get().then((value) {
+    value.docs.forEach((element) {
+      setState(() {
+        orderlist.add(OrderModelClas.fromMap(element.data()));
+      });
+    });
+  });
+  print("orders ${orderlist}");
+ print("orders list length ${orderlist.length}"); 
+   }
+ 
   @override
+    void initState() {
+    getOrders();
+    // TODO: implement initState
+    super.initState();
+  }
   Widget build(BuildContext context) {
    var height = MediaQuery.of(context).size.height;
   var  width = MediaQuery.of(context).size.width;
@@ -82,7 +103,7 @@ class _OrderClassState extends State<OrderClass> {
               width: width,
               color: MyThemeClass.primaryColor,
               child: ListView.builder(
-                itemCount: OrderModelClass.orderClass.length,
+                itemCount: orderlist.length,
                 itemBuilder: (context, index) {
                   return Padding(
                     padding: const EdgeInsets.all(12.0),
@@ -106,8 +127,9 @@ class _OrderClassState extends State<OrderClass> {
                                 borderRadius: BorderRadius.circular(15),
                                 image: DecorationImage(
                                     fit: BoxFit.cover,
-                                    image: AssetImage(
-                                        '${OrderModelClass.orderClass[index].image}')),
+                                    image: NetworkImage(
+                                       "${orderlist[index].image![0]}")
+                                       ),
                               ),
                             ),
                           ),
@@ -125,7 +147,7 @@ class _OrderClassState extends State<OrderClass> {
                                       fontSize: width * 0.035,
                                     )),
                                 Text(
-                                    '${OrderModelClass.orderClass[index].name}',
+                                    '${orderlist[index].productname}',
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontSize: width * 0.045,
@@ -152,7 +174,8 @@ class _OrderClassState extends State<OrderClass> {
                                           width: width * 0.03,
                                           decoration: BoxDecoration(
                                             shape: BoxShape.circle,
-                                            color: Colors.brown[900],
+                                            color: orderlist[index].color=="white"? Colors.white : orderlist[index].color=="brown"? Colors.brown[900] :Colors.black,
+                                           
                                           ),
                                         ),
                                       ),
@@ -174,7 +197,7 @@ class _OrderClassState extends State<OrderClass> {
                                   ],
                                 ),
                                 Text(
-                                    '${OrderModelClass.orderClass[index].price}',
+                                    '${orderlist[index].price}',
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontSize: width * 0.06,
@@ -204,17 +227,14 @@ class _OrderClassState extends State<OrderClass> {
                                               MainAxisAlignment.center,
                                           children: [
                                             Text(
-                                              '${OrderModelClass.orderClass[index].status}',
+                                              '${orderlist[index].status}',
                                               style: TextStyle(
-                                                color: OrderModelClass
-                                                            .orderClass[index]
+                                                color: 
+                                                         orderlist[index]
                                                             .status ==
                                                         'Delivered'
                                                     ? Colors.green
-                                                    : OrderModelClass
-                                                                .orderClass[
-                                                                    index]
-                                                                .status ==
+                                                    : orderlist[index].status ==
                                                             'In Progress'
                                                         ? Colors.orange
                                                         : Colors.red,
@@ -231,7 +251,7 @@ class _OrderClassState extends State<OrderClass> {
                                               ),
                                             ),
                                             Text(
-                                              '${OrderModelClass.orderClass[index].orderNo}',
+                                              '${orderlist[index].serialcode}',
                                               style: TextStyle(
                                                 color: Colors.white,
                                                 fontSize: width * 0.03,
@@ -250,16 +270,35 @@ class _OrderClassState extends State<OrderClass> {
                                           bottomRight: Radius.circular(15),
                                         )),
                                     child: Center(
-                                      child: OrderModelClass
-                                                  .orderClass[index].status ==
+                                      child:orderlist[index].status ==
                                               'Delivered'
                                           ? InkWell(
                                               onTap: () {
+                                                OrderModelClas ordermodel=OrderModelClas(
+                                                  image: orderlist[index].image,
+                                                  color: orderlist[index].color,
+                                                  customername: orderlist[index].customername,
+                                                  id: orderlist[index].id,
+                                                  oid: orderlist[index].oid,
+                                                  price: orderlist[index].price,
+                                                  productname: orderlist[index].productname,
+                                                  size: orderlist[index].size,
+                                                  serialcode: orderlist[index].serialcode,
+                                                  status: orderlist[index].status,
+                                                  details: orderlist[index].details,
+                                                  address: orderlist[index].address,
+                                                  emailaddres: orderlist[index].emailaddres,
+                                                  phonenumber: orderlist[index].phonenumber,
+                                                  ordertime: orderlist[index].ordertime
+                                                );
                                                 Navigator.push(
                                                     context,
                                                     MaterialPageRoute(
                                                         builder: (context) =>
-                                                            RatingScreen()));
+                                                            RatingScreen(
+                                                            ordermodel: ordermodel,
+                                                            )));
+                                              print("details ${orderlist[index].details}");
                                               },
                                               child: Text('Rate Product',
                                                   style: TextStyle(
@@ -267,16 +306,36 @@ class _OrderClassState extends State<OrderClass> {
                                                     fontWeight: FontWeight.bold,
                                                   )),
                                             )
-                                          : OrderModelClass.orderClass[index]
+                                          : orderlist[index]
                                                       .status ==
                                                   'In Progress'
                                               ? InkWell(
                                                   onTap: () {
+                                                    OrderModelClas ordermodels=OrderModelClas(
+                                                  image: orderlist[index].image,
+                                                  color: orderlist[index].color,
+                                                  customername: orderlist[index].customername,
+                                                  id: orderlist[index].id,
+                                                  oid: orderlist[index].oid,
+                                                  price: orderlist[index].price,
+                                                  productname: orderlist[index].productname,
+                                                  size: orderlist[index].size,
+                                                  serialcode: orderlist[index].serialcode,
+                                                  status: orderlist[index].status,
+                                                  details: orderlist[index].details,
+                                                  address: orderlist[index].address,
+                                                  emailaddres: orderlist[index].emailaddres,
+                                                  phonenumber: orderlist[index].phonenumber,
+                                                  ordertime: orderlist[index].ordertime,
+                                                  adminid: orderlist[index].adminid
+                                                );
                                                     Navigator.push(
                                                         context,
                                                         MaterialPageRoute(
                                                             builder: (context) =>
-                                                                OrderDetails()));
+                                                                OrderDetails(
+                                                                  ordermodel:ordermodels ,
+                                                                )));
                                                   },
                                                   child: Text('View Details',
                                                       style: TextStyle(

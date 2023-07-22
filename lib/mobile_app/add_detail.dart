@@ -1,3 +1,4 @@
+import 'package:ecommerece/mobile_app/model_classes/order_modelclass.dart';
 import 'package:ecommerece/mobile_app/pages/rating_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -313,8 +314,12 @@ class _AddDetailState extends State<AddDetail> {
             ),
             InkWell(
               onTap: () {
+                ////???????
+                OrderModelClas order=OrderModelClas();
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => RatingScreen()));
+                    MaterialPageRoute(builder: (context) => RatingScreen(
+                      ordermodel: order,
+                    )));
               },
               child: Container(
                 decoration: const BoxDecoration(

@@ -1,28 +1,175 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecommerece/admin_pannel/admin_model/product_model.dart';
 import 'package:ecommerece/mobile_app/Payment_method.dart';
-import 'package:ecommerece/mobile_app/pages/cart.dart';
-import 'package:ecommerece/mobile_app/model_classes/homepage_modelclass.dart';
+import 'package:ecommerece/mobile_app/model_classes/order_modelclass.dart';
 import 'package:ecommerece/mobile_app/model_classes/slider_modelclass.dart';
+import 'package:ecommerece/mobile_app/model_classes/static_value.dart';
+import 'package:ecommerece/mobile_app/pages/cart.dart';
+import 'package:ecommerece/mobile_app/pages/color_and_size_select.dart';
+import 'package:ecommerece/mobile_app/placedorder.dart';
 import 'package:ecommerece/them_data.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:uuid/uuid.dart';
+
+import 'model_classes/userModel.dart';
 
 class ItemScreen extends StatefulWidget {
-  ProductModel model;
-  ItemScreen({required this.model});
+ ProductModel model;
+ItemScreen({required this.model});
   @override
   _ItemScreenState createState() => _ItemScreenState();
 }
 
 class _ItemScreenState extends State<ItemScreen> {
   TextEditingController searchcontroller = TextEditingController();
+  FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
   int currentindex = 0;
-   
+  bool isfavourit = false;
+  int ordernNo = 1;
+  var uuid=Uuid().v4();
+
+
+  // sized select method
+
+var selecedsizedvalue;
+int sizeoption=0;
+void checkSizeoption(int index){
+   sizeoption=index;
+  }
+// color select method
+int optionselect=0;
+  var selecedcolorname;
+void checkoption(int index){
+  optionselect=index;
+}
+//  select product colors
+List<Map<String, dynamic>>colorselect=<Map<String, dynamic>>[
+   <String,dynamic>{
+    'title':'brown',
+    'color':Colors.brown,
+    'size':"S"
+
+   },
+  <String,dynamic>{
+    'title':'white',
+    'color':Colors.white,
+    'size':"M"
+   },
+   <String,dynamic>{
+    'title':'black',
+    'color':Colors.black,
+    'size':"L"
+    
+   }
+];
+
+  orderno() {
+    setState(() {
+      ordernNo = ordernNo++;
+    });
+  }
+  // FirebaseFirestore firebaseFirestore=FirebaseFirestore.instance;
+     List<UserModel> userdetails=[];
+     getuserdetails()async{
+      await firebaseFirestore.collection("users").where("uid",isEqualTo: StaticDate.uid).get().then((value) {
+      value.docs.forEach((element) {
+        setState(() {
+          UserModel model=UserModel();
+       //   userdetails.add(UserModel.fromMap(element.data()));
+        });
+      });
+      });
+     }
+  buyOrder() async {
+    try {
+      orderno();
+      OrderModelClas ordermodel = OrderModelClas(
+        id: StaticDate.uid,
+        image: widget.model.imageUrls,
+        productname: widget.model.productname,
+        serialcode: widget.model.selerialCode,
+        price: widget.model.price,
+        color:  selecedcolorname,
+        customername: StaticDate.usermodel.name,
+        status: "In Progress",
+        size: selecedsizedvalue,
+        oid: uuid,
+        details: widget.model.details,
+        ordertime: DateTime.now().toString(),
+        address: StaticDate.usermodel.address,
+        emailaddres: StaticDate.usermodel.email,
+        phonenumber: StaticDate.usermodel.name ,
+        adminid: widget.model.adminid
+      );
+      await firebaseFirestore
+          .collection("Orders").doc(uuid)
+          .set(ordermodel.toMap());
+      Fluttertoast.showToast(
+        msg: " Your Order Successfully",
+        backgroundColor: Colors.green,
+        fontSize: 16.0,
+        gravity: ToastGravity.CENTER,
+        textColor: Colors.white,
+        timeInSecForIosWeb: 1,
+        toastLength: Toast.LENGTH_SHORT,
+      );
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => OrderPalced(
+                 
+                  )));
+    } on FirebaseAuthException catch (e) {
+      Fluttertoast.showToast(
+        msg: e.toString(),
+        backgroundColor: Colors.green,
+        fontSize: 16.0,
+        gravity: ToastGravity.CENTER,
+        textColor: Colors.white,
+        timeInSecForIosWeb: 1,
+        toastLength: Toast.LENGTH_SHORT,
+      );
+    }
+    //print("usermodel ${ordermodel.toString()}");
+  }
+
   @override
+  void initState() {
+    getuserdetails();
+    // TODO: implement initState
+    super.initState();
+  }
   Widget build(BuildContext context) {
-   var height = MediaQuery.of(context).size.height;
+    var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     return Scaffold(
+      appBar:AppBar(
+        backgroundColor: MyThemeClass.primaryColor,
+        elevation: 0,
+        leading: InkWell(
+                            onTap: () {
+                              Navigator.pop(context);
+                            },
+                            child: Icon(
+                              Icons.arrow_back_ios,
+                              color: MyThemeClass.whiteColor,
+                              size: width * 0.06,
+                            ),
+                  
+      ),
+
+       centerTitle: true,
+       title: Text(
+                            'Item',
+                            style: TextStyle(
+                              fontSize: width * 0.06,
+                              color: MyThemeClass.whiteColor,
+                            ),
+                          ),
+      ),
       body: Stack(
         children: [
           Container(
@@ -32,67 +179,68 @@ class _ItemScreenState extends State<ItemScreen> {
           ),
           Column(
             children: [
-              Card(
-                elevation: 15,
-                child: Container(
-                  height: height * 0.1,
-                  width: width,
-                  color: MyThemeClass.primaryColor,
-                  child: Padding(
-                    padding: const EdgeInsets.only(bottom: 8.0),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(left: width * 0.02),
-                          child: InkWell(
-                            onTap: () {
-                              Navigator.pop(context);
-                            },
-                            child: Icon(
-                              Icons.arrow_back_ios,
-                              color: MyThemeClass.whiteColor,
-                              size: width * 0.06,
-                            ),
-                          ),
-                        ),
-                        Container(
-                          alignment: Alignment.bottomCenter,
-                          height: height,
-                          width: width * 0.2,
+              // Card(
+              //   elevation: 15,
+              //   child: Container(
+              //     height: height * 0.1,
+              //     width: width,
+              //     color: MyThemeClass.primaryColor,
+              //     child: Padding(
+              //       padding: const EdgeInsets.only(bottom: 8.0),
+              //       child: Row(
+              //         //crossAxisAlignment: CrossAxisAlignment.start,
+              //         mainAxisAlignment: MainAxisAlignment.,
+              //         children: [
+              //           Padding(
+              //             padding: EdgeInsets.only(left: width * 0.02),
+              //             child: InkWell(
+              //               onTap: () {
+              //                 Navigator.pop(context);
+              //               },
+              //               child: Icon(
+              //                 Icons.arrow_back_ios,
+              //                 color: MyThemeClass.whiteColor,
+              //                 size: width * 0.06,
+              //               ),
+              //             ),
+              //           ),
+              //         //  SizedBox(width: width*0.1,),
+              //           Container(
+              //             alignment: Alignment.centerRight,
+              //             height: height,
+              //             width: width * 0.2,
 
-                          // color: Colors.red,
+              //             // color: Colors.red,
 
-                          child: Text(
-                            'Item',
-                            style: TextStyle(
-                              fontSize: width * 0.06,
-                              color: MyThemeClass.whiteColor,
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(right: width * 0.02),
-                          child: InkWell(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => CartScreen()));
-                            },
-                            child: Icon(
-                              Icons.shopping_bag,
-                              size: width * 0.06,
-                              color: MyThemeClass.whiteColor,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
+              //             child: Text(
+              //               'Item',
+              //               style: TextStyle(
+              //                 fontSize: width * 0.06,
+              //                 color: MyThemeClass.whiteColor,
+              //               ),
+              //             ),
+              //           ),
+              //           // Padding(
+              //           //   padding: EdgeInsets.only(right: width * 0.02),
+              //           //   child: InkWell(
+              //           //     onTap: () {
+              //           //       Navigator.push(
+              //           //           context,
+              //           //           MaterialPageRoute(
+              //           //               builder: (context) => CartScreen()));
+              //           //     },
+              //           //     child: Icon(
+              //           //       Icons.shopping_bag,
+              //           //       size: width * 0.06,
+              //           //       color: MyThemeClass.whiteColor,
+              //           //     ),
+              //           //   ),
+              //           // ),
+              //         ],
+              //       ),
+              //     ),
+              //   ),
+              // ),
               Padding(
                 padding: EdgeInsets.only(top: height * 0.01),
                 child: Container(
@@ -135,7 +283,7 @@ class _ItemScreenState extends State<ItemScreen> {
                       aspectRatio: 2,
                       autoPlay: true,
                     ),
-                    itemCount: SliderClass.slider.length,
+                    itemCount: widget.model.imageUrls?.length,
                     itemBuilder: (context, index, realIndex) {
                       return Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -145,8 +293,8 @@ class _ItemScreenState extends State<ItemScreen> {
                           decoration: BoxDecoration(
                               image: DecorationImage(
                                   fit: BoxFit.cover,
-                                  image: AssetImage(
-                                      SliderClass.slider[index].image))),
+                                  image: NetworkImage(
+                                      widget.model.imageUrls![index]))),
                         ),
                       );
                     },
@@ -198,11 +346,23 @@ class _ItemScreenState extends State<ItemScreen> {
                         ),
                       ),
                     ),
+
+                    /// // favourit items
+
                     Padding(
                       padding: EdgeInsets.only(right: width * 0.02),
-                      child: Icon(
-                        Icons.favorite_border,
-                        color: MyThemeClass.whiteColor,
+                      child: IconButton(
+                        icon: Icon(
+                          Icons.favorite_border,
+                          color: isfavourit == false
+                              ? MyThemeClass.whiteColor
+                              : MyThemeClass.redColor,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            isfavourit = true;
+                          });
+                        },
                       ),
                     )
                   ],
@@ -282,7 +442,7 @@ class _ItemScreenState extends State<ItemScreen> {
                   width: width,
                   // color: Colors.pink,
                   child: Text(
-                    'Fell the difference in comfort with our uniquely designed Deep Comfort Tchnology.  More',
+                    widget.model.details!,
                     textAlign: TextAlign.start,
                     style: TextStyle(
                       fontSize: width * 0.039,
@@ -313,30 +473,27 @@ class _ItemScreenState extends State<ItemScreen> {
                 height: height * 0.06,
                 width: width,
                 // color: Colors.red,
-                child: Row(
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
+
+                  // crossAxisCount: 7,
+                  // crossAxisSpacing: 10,
                   children: [
-                    Padding(
-                      padding: EdgeInsets.only(left: width * 0.02),
-                      child: Container(
-                        decoration: const BoxDecoration(
-                            color: Colors.black,
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(15))),
-                        height: height * 0.06,
-                        width: width * 0.1,
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(left: width * 0.02),
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color: Colors.brown[900],
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(15))),
-                        height: height * 0.06,
-                        width: width * 0.1,
-                      ),
-                    ),
+                      for(int i=0; i<colorselect.length;i++)Colorselect(
+                          
+                        title: colorselect[i]['title'] as String,
+                        color: colorselect[i]['color'],
+                        onTap: (){
+                           selecedcolorname=colorselect[i]['title'] ;
+                          checkoption(i+1);
+                          print( " color title ${colorselect[i]['title'] as String}");
+                        //  var selecedcolorname=colorselect[i]['title'] as String;
+                          
+                        },
+                        selected: i+1==optionselect,
+
+                      )
+                   
                   ],
                 ),
               ),
@@ -358,153 +515,35 @@ class _ItemScreenState extends State<ItemScreen> {
                   ),
                 ),
               ),
-              Padding(
-                padding: EdgeInsets.only(top: height * 0.02),
-                child: SizedBox(
-                  height: height * 0.06,
-                  width: width,
-                  // color: Colors.red,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                            // color: Color(0xff41382F),
-                            border: Border.all(
-                                width: width * 0.003,
-                                color: MyThemeClass.whiteColor),
-                            borderRadius: BorderRadius.circular(15)),
-                        height: height * 0.06,
-                        width: width * 0.1,
-                        child: Center(
-                            child: Text(
-                          '7.5',
-                          style: TextStyle(
-                            color: MyThemeClass.whiteColor,
-                            fontSize: width * 0.04,
-                          ),
-                        )),
-                      ),
-                      Container(
-                        decoration: BoxDecoration(
-                            // color: Color(0xff41382F),
-                            border: Border.all(
-                                width: width * 0.003,
-                                color: MyThemeClass.whiteColor),
-                            borderRadius: BorderRadius.circular(15)),
-                        height: height * 0.06,
-                        width: width * 0.1,
-                        child: Center(
-                            child: Text(
-                          '8',
-                          style: TextStyle(
-                            color: MyThemeClass.whiteColor,
-                            fontSize: width * 0.04,
-                          ),
-                        )),
-                      ),
-                      Container(
-                        decoration: BoxDecoration(
-                            // color: Color(0xff41382F),
-                            border: Border.all(
-                                width: width * 0.003,
-                                color: MyThemeClass.whiteColor),
-                            borderRadius: BorderRadius.circular(15)),
-                        height: height * 0.06,
-                        width: width * 0.1,
-                        child: Center(
-                            child: Text(
-                          '8.5',
-                          style: TextStyle(
-                            color: MyThemeClass.whiteColor,
-                            fontSize: width * 0.04,
-                          ),
-                        )),
-                      ),
-                      Container(
-                        decoration: BoxDecoration(
-                            // color: Color(0xff41382F),
-                            border: Border.all(
-                                width: width * 0.003,
-                                color: MyThemeClass.whiteColor),
-                            borderRadius: BorderRadius.circular(15)),
-                        height: height * 0.06,
-                        width: width * 0.1,
-                        child: Center(
-                            child: Text(
-                          '9',
-                          style: TextStyle(
-                            color: MyThemeClass.whiteColor,
-                            fontSize: width * 0.04,
-                          ),
-                        )),
-                      ),
-                      Container(
-                        decoration: BoxDecoration(
-                            // color: Color(0xff41382F),
-                            border: Border.all(
-                                width: width * 0.003,
-                                color: MyThemeClass.whiteColor),
-                            borderRadius: BorderRadius.circular(15)),
-                        height: height * 0.06,
-                        width: width * 0.1,
-                        child: Center(
-                            child: Text(
-                          '9.5',
-                          style: TextStyle(
-                            color: MyThemeClass.whiteColor,
-                            fontSize: width * 0.04,
-                          ),
-                        )),
-                      ),
-                      Container(
-                        decoration: BoxDecoration(
-                            // color: Color(0xff41382F),
-                            border: Border.all(
-                                width: width * 0.003,
-                                color: MyThemeClass.whiteColor),
-                            borderRadius: BorderRadius.circular(15)),
-                        height: height * 0.06,
-                        width: width * 0.1,
-                        child: Center(
-                            child: Text(
-                          '10',
-                          style: TextStyle(
-                            color: MyThemeClass.whiteColor,
-                            fontSize: width * 0.04,
-                          ),
-                        )),
-                      ),
-                      Container(
-                        decoration: BoxDecoration(
-                            // color: Color(0xff41382F),
-                            border: Border.all(
-                                width: width * 0.003,
-                                color: MyThemeClass.whiteColor),
-                            borderRadius: BorderRadius.circular(15)),
-                        height: height * 0.06,
-                        width: width * 0.1,
-                        child: Center(
-                            child: Text(
-                          '11',
-                          style: TextStyle(
-                            color: MyThemeClass.whiteColor,
-                            fontSize: width * 0.04,
-                          ),
-                        )),
-                      ),
-                    ],
-                  ),
-                ),
+              SizedBox(
+                height: height * 0.06,
+                width: width,
+                // color: Colors.red,
+                child:  ListView(
+                  scrollDirection: Axis.horizontal,
+                  
+                  // crossAxisCount: 7,
+                  // crossAxisSpacing: 10,
+                children: [
+                     for(int i=0; i<colorselect.length;i++)SelectSized(
+                        
+                      sizes: colorselect[i]['size'] as String,
+                      onTap: (){
+                         selecedsizedvalue=colorselect[i]['size'] ;
+                        checkSizeoption(i+1);
+                        print( " size name ${colorselect[i]['size'] as String}");
+                        
+                      },
+                      selected: i+1==sizeoption,
+
+                    )
+                ],
+              ),
+          
               ),
               InkWell(
                 onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => PaymentMethod(
-                                model: widget.model,
-                              )));
+                  buyOrder();
                 },
                 child: Padding(
                   padding: EdgeInsets.only(top: height * 0.015),
@@ -517,7 +556,7 @@ class _ItemScreenState extends State<ItemScreen> {
                     width: width * 0.6,
                     child: Center(
                       child: Text(
-                        'Add to Cart',
+                        'Buy Order',
                         style: TextStyle(
                             color: MyThemeClass.secoundryColor,
                             fontSize: width * 0.04),

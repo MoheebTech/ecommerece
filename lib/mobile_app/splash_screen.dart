@@ -4,8 +4,8 @@ import 'package:ecommerece/admin_pannel/mobile_admin_pannel/mobile_admin_singup.
 import 'package:ecommerece/admin_pannel/web/web_admin_home.dart';
 import 'package:ecommerece/admin_pannel/web/webintroduction_screen.dart';
 import 'package:ecommerece/mobile_app/home_page.dart';
-import 'package:ecommerece/mobile_app/models/static_value.dart';
-import 'package:ecommerece/mobile_app/models/userModel.dart';
+import 'package:ecommerece/mobile_app/model_classes/static_value.dart';
+import 'package:ecommerece/mobile_app/model_classes/userModel.dart';
 import 'package:ecommerece/mobile_app/pages/introduction_screen.dart';
 import 'package:ecommerece/them_data.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +18,15 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   var height, width;
 FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-
+  Future userstatus()async{
+    await firebaseFirestore
+                    .collection('users')
+                    .doc(StaticDate.uid)
+                    .get()
+                    .then((value) {
+                  StaticDate.usermodel = UserModel.fromMap(value.data()!);
+                });
+   }
 void getuserdata(v) async {
     await firebaseFirestore.collection('users').doc(v).get().then((value) {
       setState(
@@ -46,19 +54,13 @@ void getuserdata(v) async {
                 print(" value of admin ${v}");
               },
             );
-          } else {
+          } else  {
             print(" value of user ${v}");
             StaticDate.uid = v;
             Future.delayed(
               const Duration(seconds: 4),
-              () async {
-                await firebaseFirestore
-                    .collection('users')
-                    .doc(StaticDate.uid)
-                    .get()
-                    .then((value) {
-                  StaticDate.usermodel = UserModel.fromMap(value.data()!);
-                });
+              () {
+                userstatus();
           
                 Navigator.push(
                   context,

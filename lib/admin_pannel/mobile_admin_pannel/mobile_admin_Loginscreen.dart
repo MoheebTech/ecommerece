@@ -13,7 +13,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../web_admin_Loginscreen.dart';
+import '../web/web_admin_Loginscreen.dart';
 
 class MobileAdminLogin extends StatefulWidget {
   @override
@@ -140,6 +140,7 @@ class _MobileAdminLoginState extends State<MobileAdminLogin> {
     width = MediaQuery.of(context).size.width;
 
     return width>600? WebAdminLogin():Scaffold(
+       resizeToAvoidBottomInset: false,
         body: Form(
             key: _formKey,
             child: Stack(

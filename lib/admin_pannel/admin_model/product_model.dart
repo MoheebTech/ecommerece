@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 
 class ProductModel {
+  String? adminid;
   String? category;
   String? id;
   String? productname;
@@ -18,6 +19,7 @@ class ProductModel {
   int? count;
   int? totalprice;
   ProductModel({
+    this.adminid,
     this.category,
     this.id,
     this.productname,
@@ -33,8 +35,10 @@ class ProductModel {
     this.count,
     this.totalprice,
   });
+  
 
   ProductModel copyWith({
+    String? adminid,
     String? category,
     String? id,
     String? productname,
@@ -51,6 +55,7 @@ class ProductModel {
     int? totalprice,
   }) {
     return ProductModel(
+      adminid: adminid ?? this.adminid,
       category: category ?? this.category,
       id: id ?? this.id,
       productname: productname ?? this.productname,
@@ -71,6 +76,9 @@ class ProductModel {
   Map<String, dynamic> toMap() {
     final result = <String, dynamic>{};
   
+    if(adminid != null){
+      result.addAll({'adminid': adminid});
+    }
     if(category != null){
       result.addAll({'category': category});
     }
@@ -119,6 +127,7 @@ class ProductModel {
 
   factory ProductModel.fromMap(Map<String, dynamic> map) {
     return ProductModel(
+      adminid: map['adminid'],
       category: map['category'],
       id: map['id'],
       productname: map['productname'],
@@ -142,7 +151,7 @@ class ProductModel {
 
   @override
   String toString() {
-    return 'ProductModel(category: $category, id: $id, productname: $productname, details: $details, price: $price, discountprice: $discountprice, selerialCode: $selerialCode, imageUrls: $imageUrls, isOnSale: $isOnSale, isPopular: $isPopular, isFavourit: $isFavourit, brand: $brand, count: $count, totalprice: $totalprice)';
+    return 'ProductModel(adminid: $adminid, category: $category, id: $id, productname: $productname, details: $details, price: $price, discountprice: $discountprice, selerialCode: $selerialCode, imageUrls: $imageUrls, isOnSale: $isOnSale, isPopular: $isPopular, isFavourit: $isFavourit, brand: $brand, count: $count, totalprice: $totalprice)';
   }
 
   @override
@@ -150,6 +159,7 @@ class ProductModel {
     if (identical(this, other)) return true;
   
     return other is ProductModel &&
+      other.adminid == adminid &&
       other.category == category &&
       other.id == id &&
       other.productname == productname &&
@@ -168,7 +178,8 @@ class ProductModel {
 
   @override
   int get hashCode {
-    return category.hashCode ^
+    return adminid.hashCode ^
+      category.hashCode ^
       id.hashCode ^
       productname.hashCode ^
       details.hashCode ^

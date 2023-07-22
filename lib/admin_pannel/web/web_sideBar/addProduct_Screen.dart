@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ecommerece/admin_pannel/mobile_admin_pannel/mobile_admin_singup.dart';
 import 'package:ecommerece/mobile_app/pages/textformfield.dart';
 import 'package:ecommerece/them_data.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -457,6 +458,7 @@ class _AddProductState extends State<AddProduct> {
     await uploadImage();
     ProductModel productModel=ProductModel(
      id: uuid,
+
      category: dropdownValue,
      productname: productnamecontr.text,
      selerialCode: serialcodecontr.text,
@@ -470,6 +472,7 @@ class _AddProductState extends State<AddProduct> {
      isPopular: isPopular,
     totalprice: int.tryParse(totalPrice.text),
     count:int.tryParse(count.text), 
+    adminid:AdminStaticVeriable.uid
     );
    await firebaseFirestore.collection('Products').doc(uuid).set(productModel.toMap());
     Fluttertoast.showToast(

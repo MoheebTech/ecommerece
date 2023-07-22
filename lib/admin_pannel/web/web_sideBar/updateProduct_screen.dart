@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ecommerece/admin_pannel/mobile_admin_pannel/mobile_admin_singup.dart';
 import 'package:ecommerece/admin_pannel/web/web_sideBar/update_complete_screen.dart';
 import 'package:ecommerece/them_data.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -30,7 +31,7 @@ class _UpdateProductState extends State<UpdateProduct> {
            Container(
              child: StreamBuilder<QuerySnapshot>(
                     stream: firebaseFirestore
-                        .collection('Products').snapshots(),
+                        .collection('Products').where("adminid",isEqualTo:AdminStaticVeriable.uid).snapshots(),
                     builder: (context, snapshot) {
                       final data=snapshot.data!.docs;
                       return snapshot.hasData

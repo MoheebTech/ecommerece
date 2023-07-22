@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecommerece/admin_pannel/web/web_singup.dart';
 import 'package:ecommerece/mobile_app/home_page.dart';
-import 'package:ecommerece/mobile_app/models/static_value.dart';
-import 'package:ecommerece/mobile_app/models/userModel.dart';
+import 'package:ecommerece/mobile_app/model_classes/static_value.dart';
+import 'package:ecommerece/mobile_app/model_classes/userModel.dart';
 import 'package:ecommerece/mobile_app/pages/textformfield.dart';
 import 'package:ecommerece/them_data.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -101,7 +101,7 @@ class _SignUpState extends State<SignUp> {
       );
     }
   }
-
+List<String> profileimage=[];
 // post datatoDB
         final FirebaseFirestore firebaseFirestore=FirebaseFirestore.instance;
          void postdatatoDB(String id)async{
@@ -112,7 +112,11 @@ class _SignUpState extends State<SignUp> {
          name: namecontroller.text,
          tockenId: StaticDate.tockenId,
         uid: id,
-        status: "user"
+        status: "user",
+        address: "no address",
+         number: "0545",
+         profileImage: ""
+      // profileimage: profileimage,
          );
          await firebaseFirestore.collection('users').doc(id).set(model.toMap());
          }
@@ -129,6 +133,7 @@ class _SignUpState extends State<SignUp> {
     var width = MediaQuery.of(context).size.width;
 
     return width>600? WebAdminSignUp():Scaffold(
+       resizeToAvoidBottomInset: false,
         body: Form(
             key: _formKey,
             child: Stack(

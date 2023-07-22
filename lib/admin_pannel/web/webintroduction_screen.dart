@@ -4,7 +4,7 @@ import 'package:ecommerece/mobile_app/pages/introduction_screen.dart';
 import 'package:ecommerece/them_data.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../web_admin_Loginscreen.dart';
+import 'web_admin_Loginscreen.dart';
 class WebIntroductionScreen extends StatefulWidget {
   @override
   _WebIntroductionScreenState createState() => _WebIntroductionScreenState();

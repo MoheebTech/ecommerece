@@ -1,17 +1,20 @@
 // ignore_for_file: prefer_typing_uninitialized_variables
 
-import 'package:ecommerece/admin_pannel/admin_model/product_model.dart';
-import 'package:ecommerece/mobile_app/pages/conter_controller.dart';
-import 'package:ecommerece/mobile_app/model_classes/homepage_modelclass.dart';
-import 'package:ecommerece/mobile_app/placedorder.dart';
-import 'package:ecommerece/them_data.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ecommerece/mobile_app/model_classes/order_modelclass.dart';
+import 'package:ecommerece/mobile_app/pages/conter_controller.dart';
+import 'package:ecommerece/mobile_app/placedorder.dart';
+import 'package:ecommerece/them_data.dart';
 
 // ignore: must_be_immutable
 class PaymentMethod extends StatefulWidget {
-  ProductModel model;
-  PaymentMethod({Key? key, required this.model}) : super(key: key);
+ 
+  OrderModelClas modelone;
+  PaymentMethod({
+    Key? key,
+    required this.modelone,
+  }) : super(key: key);
 
   @override
   State<PaymentMethod> createState() => _PaymentMethoState();
@@ -326,19 +329,20 @@ class _PaymentMethoState extends State<PaymentMethod> {
             onTap: () {
               if (ConterController.to.cartItemsList.length == 0) {
                 print('length is zero');
-                ConterController.to.addDataTOCart(widget.model);
-              } else {
-                ConterController.to.checkIfPresent(widget.model).then((value) {
-                  if (value!.isPresent == true) {
-                    print('update data');
-                    ConterController.to
-                        .updateDataToList(widget.model, value.index);
-                  } else {
-                    print('add item');
-                    ConterController.to.addDataTOCart(widget.model);
-                  }
-                });
-              }
+                ConterController.to.addDataTOCart(widget.modelone);
+              } 
+              // else {
+              //   ConterController.to.checkIfPresent(widget.model).then((value) {
+              //     if (value!.isPresent == true) {
+              //       print('update data');
+              //       ConterController.to
+              //           .updateDataToList(widget.modelone, value.index);
+              //     } else {
+              //       print('add item');
+              //       ConterController.to.addDataTOCart(widget.modelone);
+              //     }
+              //   });
+              // }
 
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => OrderPalced()));

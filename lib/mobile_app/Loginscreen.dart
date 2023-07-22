@@ -1,11 +1,11 @@
 // ignore_for_file: prefer_typing_uninitialized_variables
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecommerece/admin_pannel/mobile_admin_pannel/mobile_admin_Loginscreen.dart';
-import 'package:ecommerece/admin_pannel/web_admin_Loginscreen.dart';
-import 'package:ecommerece/mobile_app/models/userModel.dart';
+import 'package:ecommerece/admin_pannel/web/web_admin_Loginscreen.dart';
+import 'package:ecommerece/mobile_app/model_classes/userModel.dart';
 import 'package:ecommerece/mobile_app/pages/forgetpasword.dart';
 import 'package:ecommerece/mobile_app/home_page.dart';
-import 'package:ecommerece/mobile_app/models/static_value.dart';
+import 'package:ecommerece/mobile_app/model_classes/static_value.dart';
 import 'package:ecommerece/mobile_app/pages/singup.dart';
 import 'package:ecommerece/mobile_app/pages/textformfield.dart';
 import 'package:ecommerece/them_data.dart';
@@ -136,6 +136,8 @@ FirebaseFirestore firebaseFirestore=FirebaseFirestore.instance;
     width = MediaQuery.of(context).size.width;
 
     return width>600? WebAdminLogin():Scaffold(
+      resizeToAvoidBottomInset: false,
+   //   drawerScrimColor: MyThemeClass.transColor,
         body: Form(
             key: _formKey,
             child: Stack(

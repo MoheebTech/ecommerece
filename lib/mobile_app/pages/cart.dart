@@ -1,10 +1,17 @@
-import 'package:ecommerece/mobile_app/Add_Card.dart';
-import 'package:ecommerece/mobile_app/pages/conter_controller.dart';
-import 'package:ecommerece/them_data.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import 'package:ecommerece/mobile_app/Add_Card.dart';
+import 'package:ecommerece/mobile_app/model_classes/order_modelclass.dart';
+import 'package:ecommerece/mobile_app/pages/conter_controller.dart';
+import 'package:ecommerece/them_data.dart';
+
 class CartScreen extends StatefulWidget {
+  OrderModelClas ordermodel;
+   CartScreen({
+    Key? key,
+    required this.ordermodel,
+  }) : super(key: key);
   @override
   State<CartScreen> createState() => _CartScreenState();
 }
@@ -137,8 +144,8 @@ class _CartScreenState extends State<CartScreen> {
                                                 BorderRadius.circular(15),
                                             image: DecorationImage(
                                                 fit: BoxFit.cover,
-                                                image: AssetImage(
-                                                    '${obj.cartItemsList[index].imageUrls}')),
+                                                image: NetworkImage(
+                                                    '${obj.cartItemsList[index].image![0]}')),
                                           ),
                                         ),
                                       ),
@@ -214,7 +221,7 @@ class _CartScreenState extends State<CartScreen> {
                                                           obj
                                                               .cartItemsList[
                                                                   index]
-                                                              .count!,
+                                                              .quantity!,
                                                           obj
                                                               .cartItemsList[
                                                                   index]
@@ -243,7 +250,7 @@ class _CartScreenState extends State<CartScreen> {
                                                   ),
                                                   Center(
                                                     child: Text(
-                                                      '${obj.cartItemsList[index].count}',
+                                                      '${obj.cartItemsList[index].quantity}',
                                                       style: TextStyle(
                                                         fontSize: width * 0.06,
                                                         fontWeight:
@@ -260,7 +267,7 @@ class _CartScreenState extends State<CartScreen> {
                                                           obj
                                                               .cartItemsList[
                                                                   index]
-                                                              .count!,
+                                                              .quantity!,
                                                           obj
                                                               .cartItemsList[
                                                                   index]

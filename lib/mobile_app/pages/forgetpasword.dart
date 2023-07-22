@@ -1,5 +1,4 @@
 import 'package:ecommerece/mobile_app/Loginscreen.dart';
-import 'package:ecommerece/mobile_app/Recover_password.dart';
 import 'package:ecommerece/them_data.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -71,6 +70,7 @@ String? errorMessage;
     height = MediaQuery.of(context).size.height;
     width = MediaQuery.of(context).size.width;
     return Scaffold(
+       resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Stack(
           children: [

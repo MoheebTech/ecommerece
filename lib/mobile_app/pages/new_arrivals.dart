@@ -1,15 +1,15 @@
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecommerece/admin_pannel/admin_model/product_model.dart';
-import 'package:ecommerece/mobile_app/Payment_method.dart';
 import 'package:ecommerece/mobile_app/pages/cart.dart';
-import 'package:ecommerece/mobile_app/model_classes/New_Arrivals_modelclass.dart';
-import 'package:ecommerece/mobile_app/model_classes/homepage_modelclass.dart';
 import 'package:ecommerece/them_data.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+
+import '../item_screen.dart';
 
 class NewArrival extends StatefulWidget {
-  String heading;
-  NewArrival({required this.heading});
+ String heading;
+ NewArrival({required this.heading});
 
   @override
   State<NewArrival> createState() => _NewArrivalState();
@@ -17,56 +17,60 @@ class NewArrival extends StatefulWidget {
 
 class _NewArrivalState extends State<NewArrival> {
   TextEditingController searchcontroller = TextEditingController();
+  final imagepicker = ImagePicker();
+  List<XFile> image = [];
+  String? search;
+  // List<NewArrivals> myList = [];
+  bool leading = true;
 
-  List<NewArrivals> myList = [];
-  @override
-  void initState() {
-    getList();
-    super.initState();
+  // getList() {
+  //   if (widget.heading == "Casual Wear") {
+  //     myList = NewArrivals.casualItemList;
+  //   } else if (widget.heading == "Boots") {
+  //     myList = NewArrivals.bootsItemList;
+  //   } else if (widget.heading == "Sneakers") {
+  //     myList = NewArrivals.sneakersItemList;
+  //   } else if (widget.heading == "Sandals") {
+  //     myList = NewArrivals.sandalItemList;
+  //   } else {
+  //     myList = NewArrivals.newArrivals;
+  //   }
+  // }
+
+  List<ProductModel> newproductlist = [];
+  getProducts() async {
+    QuerySnapshot snapshot =
+        await FirebaseFirestore.instance.collection("Products").get();
+    snapshot.docs.forEach((doc) {
+      setState(() {
+        newproductlist
+            .add(ProductModel.fromMap(doc.data() as Map<String, dynamic>));
+      });
+    });
+    print('productlist: $newproductlist');
+
+    setState(() {
+      leading = true;
+    });
   }
 
-  getList() {
-    if (widget.heading == "Casual Wear") {
-      myList = NewArrivals.casualItemList;
-    } else if (widget.heading == "Boots") {
-      myList = NewArrivals.bootsItemList;
-    } else if (widget.heading == "Sneakers") {
-      myList = NewArrivals.sneakersItemList;
-    } else if (widget.heading == "Sandals") {
-      myList = NewArrivals.sandalItemList;
-    } else {
-      myList = NewArrivals.newArrivals;
-    }
+  @override
+  void initState() {
+    getProducts();
+    // getList();
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-  var  height = MediaQuery.of(context).size.height;
-  var  width = MediaQuery.of(context).size.width;
+    var height = MediaQuery.of(context).size.height;
+    var width = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      body: Container(
-        height: height,
-        width: width,
-        color: MyThemeClass.primaryColor,
-        child: Column(
-          children: [
-            Card(
-              elevation: 5,
-              color: Colors.black,
-              child: Container(
-                  height: height * 0.1,
-                  width: width,
-                  color: MyThemeClass.primaryColor,
-                  child: Padding(
-                    padding: const EdgeInsets.only(bottom: 8.0),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(left: width * 0.02),
-                          child: InkWell(
+      appBar:AppBar(
+        backgroundColor: MyThemeClass.primaryColor,
+        elevation: 0,
+        leading: InkWell(
                             onTap: () {
                               Navigator.pop(context);
                             },
@@ -75,35 +79,25 @@ class _NewArrivalState extends State<NewArrival> {
                               color: MyThemeClass.whiteColor,
                               size: width * 0.06,
                             ),
-                          ),
-                        ),
-                        Text(
-                          'RIGEL',
-                          style: TextStyle(
-                            color: MyThemeClass.secoundryColor,
-                            fontSize: width * 0.07,
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(right: width * 0.02),
-                          child: InkWell(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => CartScreen()));
-                            },
-                            child: Icon(
-                              Icons.shopping_bag,
+                  
+      ),
+
+       centerTitle: true,
+       title: Text(
+                            'RIGEL',
+                            style: TextStyle(
+                              fontSize: width * 0.06,
                               color: MyThemeClass.whiteColor,
-                              size: width * 0.06,
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                  )),
-            ),
+      ),
+      body: Container(
+        height: height,
+        width: width,
+        color: MyThemeClass.primaryColor,
+        child: Column(
+          children: [
+
             Padding(
               padding: EdgeInsets.only(top: height * 0.01),
               child: Container(
@@ -117,6 +111,11 @@ class _NewArrivalState extends State<NewArrival> {
                   padding: EdgeInsets.only(left: width * 0.02),
                   child: TextFormField(
                     controller: searchcontroller,
+                    onChanged: (value) {
+                      setState(() {
+                        search = value;
+                      });
+                    },
                     decoration: const InputDecoration(
                         prefixIcon: Icon(
                           Icons.search,
@@ -143,7 +142,7 @@ class _NewArrivalState extends State<NewArrival> {
                 // color: Colors.red,
                 child: Center(
                   child: Text(
-                    widget.heading,
+                    "New Products",
                     style: TextStyle(
                       color: MyThemeClass.whiteColor,
                       fontSize: width * 0.06,
@@ -152,193 +151,453 @@ class _NewArrivalState extends State<NewArrival> {
                 ),
               ),
             ),
-            Expanded(
-              child: Container(
-                height: height,
-                width: width,
-                color: MyThemeClass.primaryColor,
-                child: ListView.builder(
-                    itemCount: myList.length,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.only(
-                            left: 12.0, right: 12.0, bottom: 12.0),
-                        child: Container(
-                          height: height * 0.3,
-                          width: width * 0.8,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15),
-                            color: MyThemeClass.transColor?.withOpacity(0.1),
-                          ),
-                          child: Column(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Container(
-                                  height: height * 0.17,
-                                  width: width * 0.9,
-                                  decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                        fit: BoxFit.fitHeight,
-                                        image: AssetImage(
-                                            '${myList[index].image}')),
-                                    borderRadius: BorderRadius.circular(15),
-                                  ),
+            leading == false
+                ? Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : Expanded(
+                    child: Container(
+                      height: height,
+                      width: width,
+                      color: MyThemeClass.primaryColor,
+                      child: ListView.builder(
+                          itemCount: newproductlist.length,
+                          itemBuilder: (context, index) {
+                            if (search == null ||
+                                search!.isEmpty ||
+                                search == '') {
+                                    return Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 12.0, right: 12.0, bottom: 12.0),
+                              child: Container(
+                                height: height * 0.3,
+                                width: width * 0.8,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15),
+                                  color:
+                                      MyThemeClass.transColor?.withOpacity(0.1),
                                 ),
-                              ),
-                              SizedBox(
-                                height: height * 0.1,
-                                width: width,
-                                // color: Colors.red,
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                child: Column(
                                   children: [
-                                    Container(
-                                      height: height,
-                                      width: width * 0.3,
-                                      // color: Colors.green,
-                                      child: Padding(
-                                        padding:
-                                            EdgeInsets.only(left: width * 0.04),
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceEvenly,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              '${myList[index].name}',
-                                              style: TextStyle(
-                                                color: MyThemeClass.whiteColor,
-                                                fontSize: width * 0.04,
-                                              ),
-                                            ),
-                                            Text(
-                                              '${myList[index].amount}',
-                                              style: TextStyle(
-                                                color: MyThemeClass.whiteColor,
-                                                fontSize: width * 0.05,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                          ],
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Container(
+                                        height: height * 0.17,
+                                        width: width * 0.9,
+                                        decoration: BoxDecoration(
+                                          image: DecorationImage(
+                                              fit: BoxFit.fitHeight,
+                                              image: NetworkImage(
+                                                  '${newproductlist[index].imageUrls![0]}')),
+                                          borderRadius:
+                                              BorderRadius.circular(15),
                                         ),
                                       ),
                                     ),
-                                    Container(
-                                      height: height,
-                                      width: width * 0.2,
-                                      // color: Colors.brown,
-                                      child: Column(
+                                    SizedBox(
+                                      height: height * 0.1,
+                                      width: width,
+                                      // color: Colors.red,
+                                      child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Padding(
-                                            padding: EdgeInsets.only(
-                                                top: height * 0.015),
-                                            child: Text(
-                                              'Colors',
-                                              style: TextStyle(
-                                                color:
-                                                    MyThemeClass.whiteColor,
-                                                fontSize: width * 0.04,
-                                              ),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: EdgeInsets.only(
-                                                bottom: height * 0.035),
-                                            child: Container(
-                                              // color: Colors.amber,
-                                              child: Row(
+                                          Container(
+                                            height: height,
+                                            width: width * 0.3,
+                                            // color: Colors.green,
+                                            child: Padding(
+                                              padding: EdgeInsets.only(
+                                                  left: width * 0.04),
+                                              child: Column(
                                                 mainAxisAlignment:
-                                                    MainAxisAlignment.center,
+                                                    MainAxisAlignment
+                                                        .spaceEvenly,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
                                                 children: [
-                                                  Container(
-                                                    height: height * 0.02,
-                                                    width: width * 0.03,
-                                                    decoration:const BoxDecoration(
-                                                      shape: BoxShape.circle,
-                                                      color: Colors.black,
+                                                  Text(
+                                                    '${newproductlist[index].productname}',
+                                                    style: TextStyle(
+                                                      color: MyThemeClass
+                                                          .whiteColor,
+                                                      fontSize: width * 0.04,
                                                     ),
                                                   ),
-                                                  Padding(
-                                                    padding: EdgeInsets.only(
-                                                        left: width * 0.02),
-                                                    child: Container(
-                                                      height: height * 0.02,
-                                                      width: width * 0.03,
-                                                      decoration: BoxDecoration(
-                                                        shape: BoxShape.circle,
-                                                        color:
-                                                            Colors.brown[900],
-                                                      ),
+                                                  Text(
+                                                    '${newproductlist[index].price}',
+                                                    style: TextStyle(
+                                                      color: MyThemeClass
+                                                          .whiteColor,
+                                                      fontSize: width * 0.05,
+                                                      fontWeight:
+                                                          FontWeight.bold,
                                                     ),
                                                   ),
                                                 ],
                                               ),
                                             ),
                                           ),
-                                        ],
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: height,
-                                      width: width * 0.3,
-                                      // color: Colors.amber,
-                                      child: Align(
-                                        alignment: Alignment.bottomRight,
-                                        child: InkWell(
-                                          onTap: () {
-                                            ProductModel model =
-                                                ProductModel(
-                                                    price:
-                                                        myList[index].amount,
-                                                    totalprice:
-                                                        myList[index].amount,
-                                                  //  imageUrls: myList[index].image,
-                                                    productname: myList[index].name,
-                                                    count: 1);
-
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        PaymentMethod(
-                                                          model: model,
-                                                        )));
-                                          },
-                                          child: Container(
-                                            height: height * 0.06,
-                                            width: width * 0.3,
-                                            decoration: BoxDecoration(
-                                                color: MyThemeClass.whiteColor,
-                                                borderRadius: const BorderRadius.only(
-                                                  topLeft: Radius.circular(15),
-                                                  bottomRight:
-                                                      Radius.circular(15),
-                                                )),
-                                            child: Center(
-                                              child: Text('Add to cart',
-                                                  style: TextStyle(
-                                                    fontSize: width * 0.04,
-                                                  )),
+                                          Container(
+                                            height: height,
+                                            width: width * 0.2,
+                                            // color: Colors.brown,
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Padding(
+                                                  padding: EdgeInsets.only(
+                                                      top: height * 0.015),
+                                                  child: Text(
+                                                    'Colors',
+                                                    style: TextStyle(
+                                                      color: MyThemeClass
+                                                          .whiteColor,
+                                                      fontSize: width * 0.04,
+                                                    ),
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding: EdgeInsets.only(
+                                                      bottom: height * 0.035),
+                                                  child: Container(
+                                                    // color: Colors.amber,
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        Container(
+                                                          height: height * 0.02,
+                                                          width: width * 0.03,
+                                                          decoration:
+                                                              const BoxDecoration(
+                                                            shape:
+                                                                BoxShape.circle,
+                                                            color: Colors.black,
+                                                          ),
+                                                        ),
+                                                        Padding(
+                                                          padding:
+                                                              EdgeInsets.only(
+                                                                  left: width *
+                                                                      0.02),
+                                                          child: Container(
+                                                            height:
+                                                                height * 0.02,
+                                                            width: width * 0.03,
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              shape: BoxShape
+                                                                  .circle,
+                                                              color: Colors
+                                                                  .brown[900],
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
                                             ),
                                           ),
-                                        ),
+                                          SizedBox(
+                                            height: height,
+                                            width: width * 0.3,
+                                            // color: Colors.amber,
+                                            child: Align(
+                                              alignment: Alignment.bottomRight,
+                                              child: InkWell(
+                                                onTap: () {
+                                                  ProductModel model =
+                                                      ProductModel(
+                                                          price: newproductlist[
+                                                                  index]
+                                                              .price,
+                                                          totalprice:
+                                                              newproductlist[
+                                                                      index]
+                                                                  .totalprice,
+                                                          //  imageUrls: myList[index].image,
+                                                          productname:
+                                                              newproductlist[
+                                                                      index]
+                                                                  .productname,
+                                                          count: 1,
+                                                          brand: newproductlist[index].brand,
+                                                          category: newproductlist[index].category,
+                                                          details: newproductlist[index].details,
+                                                          discountprice: newproductlist[index].discountprice,
+                                                          id: newproductlist[index].id,
+                                                          imageUrls: newproductlist[index].imageUrls,
+                                                          selerialCode: newproductlist[index].selerialCode,
+                                                          );
+
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              ItemScreen(
+                                                                model: model,
+                                                              )));
+                                                },
+                                                child: Container(
+                                                  height: height * 0.06,
+                                                  width: width * 0.3,
+                                                  decoration: BoxDecoration(
+                                                      color: MyThemeClass
+                                                          .whiteColor,
+                                                      borderRadius:
+                                                          const BorderRadius
+                                                              .only(
+                                                        topLeft:
+                                                            Radius.circular(15),
+                                                        bottomRight:
+                                                            Radius.circular(15),
+                                                      )),
+                                                  child: Center(
+                                                    child: Text('Add to cart',
+                                                        style: TextStyle(
+                                                          fontSize:
+                                                              width * 0.04,
+                                                        )),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ),
                                   ],
                                 ),
                               ),
-                            ],
-                          ),
-                        ),
-                      );
-                    }),
-              ),
-            ),
+                            );
+                            } else if (newproductlist[index]
+                                .productname!
+                                .toLowerCase()
+                                .contains(search!.toLowerCase())) {
+                                    return Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 12.0, right: 12.0, bottom: 12.0),
+                              child: Container(
+                                height: height * 0.3,
+                                width: width * 0.8,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15),
+                                  color:
+                                      MyThemeClass.transColor?.withOpacity(0.1),
+                                ),
+                                child: Column(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Container(
+                                        height: height * 0.17,
+                                        width: width * 0.9,
+                                        decoration: BoxDecoration(
+                                          image: DecorationImage(
+                                              fit: BoxFit.fitHeight,
+                                              image: NetworkImage(
+                                                  '${newproductlist[index].imageUrls![0]}')),
+                                          borderRadius:
+                                              BorderRadius.circular(15),
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: height * 0.1,
+                                      width: width,
+                                      // color: Colors.red,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Container(
+                                            height: height,
+                                            width: width * 0.3,
+                                            // color: Colors.green,
+                                            child: Padding(
+                                              padding: EdgeInsets.only(
+                                                  left: width * 0.04),
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceEvenly,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    '${newproductlist[index].productname}',
+                                                    style: TextStyle(
+                                                      color: MyThemeClass
+                                                          .whiteColor,
+                                                      fontSize: width * 0.04,
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                    '${newproductlist[index].price}',
+                                                    style: TextStyle(
+                                                      color: MyThemeClass
+                                                          .whiteColor,
+                                                      fontSize: width * 0.05,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                          Container(
+                                            height: height,
+                                            width: width * 0.2,
+                                            // color: Colors.brown,
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Padding(
+                                                  padding: EdgeInsets.only(
+                                                      top: height * 0.015),
+                                                  child: Text(
+                                                    'Colors',
+                                                    style: TextStyle(
+                                                      color: MyThemeClass
+                                                          .whiteColor,
+                                                      fontSize: width * 0.04,
+                                                    ),
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding: EdgeInsets.only(
+                                                      bottom: height * 0.035),
+                                                  child: Container(
+                                                    // color: Colors.amber,
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        Container(
+                                                          height: height * 0.02,
+                                                          width: width * 0.03,
+                                                          decoration:
+                                                              const BoxDecoration(
+                                                            shape:
+                                                                BoxShape.circle,
+                                                            color: Colors.black,
+                                                          ),
+                                                        ),
+                                                        Padding(
+                                                          padding:
+                                                              EdgeInsets.only(
+                                                                  left: width *
+                                                                      0.02),
+                                                          child: Container(
+                                                            height:
+                                                                height * 0.02,
+                                                            width: width * 0.03,
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              shape: BoxShape
+                                                                  .circle,
+                                                              color: Colors
+                                                                  .brown[900],
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: height,
+                                            width: width * 0.3,
+                                            // color: Colors.amber,
+                                            child: Align(
+                                              alignment: Alignment.bottomRight,
+                                              child: InkWell(
+                                                onTap: () {
+                                                  ProductModel model =
+                                                      ProductModel(
+                                                          price: newproductlist[
+                                                                  index]
+                                                              .price,
+                                                          totalprice:
+                                                              newproductlist[
+                                                                      index]
+                                                                  .totalprice,
+                                                          //  imageUrls: myList[index].image,
+                                                          productname:
+                                                              newproductlist[
+                                                                      index]
+                                                                  .productname,
+                                                          count: 1,
+                                                          brand: newproductlist[index].brand,
+                                                          category: newproductlist[index].category,
+                                                          details: newproductlist[index].details,
+                                                          discountprice: newproductlist[index].discountprice,
+                                                          id: newproductlist[index].id,
+                                                          imageUrls: newproductlist[index].imageUrls,
+                                                          selerialCode: newproductlist[index].selerialCode,
+
+                                                          );
+
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              ItemScreen(
+                                                                model: model,
+                                                              )));
+                                                },
+                                                child: Container(
+                                                  height: height * 0.06,
+                                                  width: width * 0.3,
+                                                  decoration: BoxDecoration(
+                                                      color: MyThemeClass
+                                                          .whiteColor,
+                                                      borderRadius:
+                                                          const BorderRadius
+                                                              .only(
+                                                        topLeft:
+                                                            Radius.circular(15),
+                                                        bottomRight:
+                                                            Radius.circular(15),
+                                                      )),
+                                                  child: Center(
+                                                    child: Text('Add to cart',
+                                                        style: TextStyle(
+                                                          fontSize:
+                                                              width * 0.04,
+                                                        )),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                            } else {
+                              return Container();
+                            }
+                          
+                          }),
+                    ),
+                  ),
           ],
         ),
       ),

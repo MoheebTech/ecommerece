@@ -1,4 +1,5 @@
-import 'package:ecommerece/mobile_app/models/userModel.dart';
+import 'package:ecommerece/mobile_app/model_classes/order_modelclass.dart';
+import 'package:ecommerece/mobile_app/model_classes/userModel.dart';
 
 class StaticDate {
   // static String serverurl = "http://161.97.127.67:9999";
@@ -6,4 +7,5 @@ class StaticDate {
   static String ? uid;
   static String? tockenId;
    static UserModel usermodel=UserModel();
+   static OrderModelClas ordermodel=OrderModelClas();
 }

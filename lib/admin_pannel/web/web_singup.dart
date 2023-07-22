@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecommerece/admin_pannel/admin_model/admin_model.dart';
 import 'package:ecommerece/admin_pannel/web/web_admin_home.dart';
-import 'package:ecommerece/admin_pannel/web_admin_Loginscreen.dart';
-import 'package:ecommerece/mobile_app/models/static_value.dart';
+import 'package:ecommerece/admin_pannel/web/web_admin_Loginscreen.dart';
+import 'package:ecommerece/mobile_app/model_classes/static_value.dart';
 import 'package:ecommerece/mobile_app/pages/singup.dart';
 import 'package:ecommerece/mobile_app/pages/textformfield.dart';
 import 'package:ecommerece/them_data.dart';
@@ -128,6 +128,7 @@ class _WebAdminSignUpState extends State<WebAdminSignUp> {
      width = MediaQuery.of(context).size.width;
 
     return width<600?SignUp():Scaffold(
+       resizeToAvoidBottomInset: false,
         backgroundColor: MyThemeClass.primaryColor,
         body: Form(
             key: _formKey,
@@ -159,10 +160,11 @@ class _WebAdminSignUpState extends State<WebAdminSignUp> {
                         borderRadius: BorderRadius.circular(15)),
                     elevation: 14,
                     child: Container(
-                      height: height * 0.5,
+                      height: height * 0.62,
                       width: width * 0.65,
-                      child: Column(children: [
-                        Row(
+                      child: Column(
+                        children: [
+                          Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Padding(
@@ -171,9 +173,9 @@ class _WebAdminSignUpState extends State<WebAdminSignUp> {
                                 child: Text(
                                   'SIGNUP',
                                   style: TextStyle(
-                                      fontSize: width * 0.03,
-                                      fontWeight: FontWeight.bold,
-                                      color: MyThemeClass.secoundryColor),
+                                  fontSize: width * 0.03,
+                                  fontWeight: FontWeight.bold,
+                                  color: MyThemeClass.secoundryColor),
                                 )),
                             // ///------------------
                             //      /// signup screen
@@ -339,52 +341,52 @@ class _WebAdminSignUpState extends State<WebAdminSignUp> {
                         ),
                       ]),
                     )),
-                Padding(
-                  padding: EdgeInsets.only(top: height * 0.02),
-                  child: Center(
-                      child: Text(
-                    'Or Signup With',
-                    style: TextStyle(
-                        fontSize: width * 0.03,
-                        color: MyThemeClass.secoundryColor),
-                  )),
-                ),
-                SizedBox(
-                  height: height * 0.01,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      height: height * 0.08,
-                      width: width * 0.13,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.blue[900],
-                      ),
-                      child: Center(
-                        child: Text(
-                          'f',
-                          style: TextStyle(
-                            color: MyThemeClass.whiteColor,
-                            fontSize: width * 0.05,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(width: width * 0.03),
-                    Container(
-                      height: height * 0.08,
-                      width: width * 0.13,
-                      decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          image: DecorationImage(
-                              fit: BoxFit.contain,
-                              image: AssetImage('images/twitter.png'))),
-                    ),
-                  ],
-                ),
+                // Padding(
+                //   padding: EdgeInsets.only(top: height * 0.02),
+                //   child: Center(
+                //       child: Text(
+                //     'Or Signup With',
+                //     style: TextStyle(
+                //         fontSize: width * 0.03,
+                //         color: MyThemeClass.secoundryColor),
+                //   )),
+                // ),
+                // SizedBox(
+                //   height: height * 0.01,
+                // ),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.center,
+                //   children: [
+                //     Container(
+                //       height: height * 0.08,
+                //       width: width * 0.13,
+                //       decoration: BoxDecoration(
+                //         shape: BoxShape.circle,
+                //         color: Colors.blue[900],
+                //       ),
+                //       child: Center(
+                //         child: Text(
+                //           'f',
+                //           style: TextStyle(
+                //             color: MyThemeClass.whiteColor,
+                //             fontSize: width * 0.05,
+                //             fontWeight: FontWeight.bold,
+                //           ),
+                //         ),
+                //       ),
+                //     ),
+                //     SizedBox(width: width * 0.03),
+                //     Container(
+                //       height: height * 0.08,
+                //       width: width * 0.13,
+                //       decoration: const BoxDecoration(
+                //           shape: BoxShape.circle,
+                //           image: DecorationImage(
+                //               fit: BoxFit.contain,
+                //               image: AssetImage('images/twitter.png'))),
+                //     ),
+                //   ],
+                // ),
               ],
 
 //                   ),

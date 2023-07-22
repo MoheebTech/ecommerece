@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecommerece/admin_pannel/admin_model/admin_model.dart';
 import 'package:ecommerece/admin_pannel/web/web_admin_home.dart';
 import 'package:ecommerece/admin_pannel/web/web_singup.dart';
-import 'package:ecommerece/mobile_app/models/static_value.dart';
+import 'package:ecommerece/mobile_app/model_classes/static_value.dart';
 import 'package:ecommerece/mobile_app/pages/textformfield.dart';
 import 'package:ecommerece/them_data.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -129,6 +129,7 @@ class _MobileAdminSignUpState extends State<MobileAdminSignUp> {
     var width = MediaQuery.of(context).size.width;
 
     return width>600?WebAdminSignUp():Scaffold(
+       resizeToAvoidBottomInset: false,
         body: Form(
             key: _formKey,
             child: Stack(
@@ -174,227 +175,231 @@ class _MobileAdminSignUpState extends State<MobileAdminSignUp> {
                           ),
                         ),
                         Container(
-                            height: height * 0.52,
+                            height: height * 0.6,
                             width: width * 0.9,
                             decoration: BoxDecoration(
                                 color: Colors.yellow[50]?.withOpacity(0.1),
                                 borderRadius: BorderRadius.circular(15)),
-                            child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Column(children: [
-                                  Align(
-                                    alignment: Alignment.topLeft,
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Padding(
-                                            padding: EdgeInsets.only(
-                                                left: width * 0.03),
-                                            child: Text(
-                                              'SignUp ',
-                                              style: TextStyle(
-                                                  fontSize: width * 0.06,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: MyThemeClass
-                                                      .secoundryColor),
-                                            )),
-                                        Padding(
-                                          padding: EdgeInsets.only(
-                                              right: width * 0.03),
-                                          //--------------
-                                          //  login back screen
-                                          child: TextButton(
-                                            onPressed: () {
-                                              Navigator.pop(context, context);
-                                            },
-                                            child: Text('LOGIN',
+                            child: Expanded(
+                              child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(children: [
+                                    Align(
+                                      alignment: Alignment.topLeft,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Padding(
+                                              padding: EdgeInsets.only(
+                                                  left: width * 0.03),
+                                              child: Text(
+                                                'SignUp ',
                                                 style: TextStyle(
-                                                    fontSize: width * 0.05,
+                                                    fontSize: width * 0.06,
+                                                    fontWeight: FontWeight.bold,
                                                     color: MyThemeClass
-                                                        .secoundryColor)),
-                                          ),
-                                        )
-                                      ],
+                                                        .secoundryColor),
+                                              )),
+                                          Padding(
+                                            padding: EdgeInsets.only(
+                                                right: width * 0.03),
+                                            //--------------
+                                            //  login back screen
+                                            child: TextButton(
+                                              onPressed: () {
+                                                Navigator.pop(context, context);
+                                              },
+                                              child: Text('LOGIN',
+                                                  style: TextStyle(
+                                                      fontSize: width * 0.05,
+                                                      color: MyThemeClass
+                                                          .secoundryColor)),
+                                            ),
+                                          )
+                                        ],
+                                      ),
                                     ),
-                                  ),
-
-// name field
-
-                                  Expanded(
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceAround,
-                                      children: [
-                                        Textformfield(
-                                            abscureText: false,
-                                            controller: namecontroller,
-                                            hinttext: 'Name',
-
+                            
+                            // name field
+                            
+                                    Expanded(
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceAround,
+                                        children: [
+                                          Textformfield(
+                                              abscureText: false,
+                                              controller: namecontroller,
+                                              hinttext: 'Name',
+                            
+                                              // inputaction: TextInputAction.continueAction,
+                                              keyboardtype:
+                                                  TextInputType.emailAddress,
+                                              prefixIcon: Icon(
+                                                Icons.person,
+                                                color: MyThemeClass.whiteColor,
+                                              ),
+                                              validation: (value) {
+                                                if (value == null ||
+                                                    value.isEmpty) {
+                                                  return 'Please enter your name';
+                                                }
+                            
+                                                return null;
+                                              }),
+                            
+                                          Textformfield(
+                                              abscureText: false,
+                                              controller: emailcontroller,
+                                              hinttext: 'Email',
+                                              // inputaction: TextInputAction.continueAction,
+                                              keyboardtype:
+                                                  TextInputType.emailAddress,
+                                              prefixIcon: Icon(
+                                                Icons.email,
+                                                color: MyThemeClass.whiteColor,
+                                              ),
+                                              validation: (value) {
+                                                if (value == null ||
+                                                    value.isEmpty) {
+                                                  return 'Please enter your email';
+                                              //   } else if ( value.contains('@') && value.endsWith('.com')) {
+                                              //     return  " valid email @gmail.com";
+                                               }
+                                                return null;
+                                              }),
+                                          //----------------
+                                          // password field
+                            
+                                          Textformfield(
+                                            controller: passcontroller,
+                                            hinttext: 'Password',
+                                            abscureText: hide,
                                             // inputaction: TextInputAction.continueAction,
-                                            keyboardtype:
-                                                TextInputType.emailAddress,
+                                            keyboardtype: TextInputType.text,
                                             prefixIcon: Icon(
-                                              Icons.person,
+                                              Icons.key,
                                               color: MyThemeClass.whiteColor,
+                                            ),
+                                            suffixIcon: IconButton(
+                                              icon: Icon(
+                                                hide == true
+                                                    ? Icons.visibility_off
+                                                    : Icons.visibility,
+                                                color: MyThemeClass.whiteColor,
+                                              ),
+                                              onPressed: () {
+                                                setState(() {
+                                                  hide = !hide;
+                                                });
+                                              },
                                             ),
                                             validation: (value) {
                                               if (value == null ||
                                                   value.isEmpty) {
-                                                return 'Please enter your name';
+                                                return'Please enter your password';
                                               }
-
-                                              return null;
-                                            }),
-
-                                        Textformfield(
-                                            abscureText: false,
-                                            controller: emailcontroller,
-                                            hinttext: 'Email',
-                                            // inputaction: TextInputAction.continueAction,
-                                            keyboardtype:
-                                                TextInputType.emailAddress,
-                                            prefixIcon: Icon(
-                                              Icons.email,
-                                              color: MyThemeClass.whiteColor,
-                                            ),
-                                            validation: (value) {
-                                              if (value == null ||
-                                                  value.isEmpty) {
-                                                return 'Please enter your email';
-                                            //   } else if ( value.contains('@') && value.endsWith('.com')) {
-                                            //     return  " valid email @gmail.com";
+                                             else if(value.length<6){
+                                               return ' your password greaterthan 6 characters';
                                              }
                                               return null;
-                                            }),
-                                        //----------------
-                                        // password field
-
-                                        Textformfield(
-                                          controller: passcontroller,
-                                          hinttext: 'Password',
-                                          abscureText: hide,
-                                          // inputaction: TextInputAction.continueAction,
-                                          keyboardtype: TextInputType.text,
-                                          prefixIcon: Icon(
-                                            Icons.key,
-                                            color: MyThemeClass.whiteColor,
-                                          ),
-                                          suffixIcon: IconButton(
-                                            icon: Icon(
-                                              hide == true
-                                                  ? Icons.visibility_off
-                                                  : Icons.visibility,
-                                              color: MyThemeClass.whiteColor,
-                                            ),
-                                            onPressed: () {
-                                              setState(() {
-                                                hide = !hide;
-                                              });
                                             },
                                           ),
-                                          validation: (value) {
-                                            if (value == null ||
-                                                value.isEmpty) {
-                                              return'Please enter your password';
-                                            }
-                                           else if(value.length<6){
-                                             return ' your password greaterthan 6 characters';
-                                           }
-                                            return null;
-                                          },
-                                        ),
-                                        ////-----------------
-      /// MobileAdminSignUp button
-                                        ///
-                                        Padding(
-                                            padding: EdgeInsets.only(
-                                                top: height * 0.03),
-                                            child: InkWell(
-                                              onTap: () {
-                                                // addloginDataToSf();
-                                            
-                                               mobileAdminsignUp();
+                                          ////-----------------
+                                  /// MobileAdminSignUp button
+                                          ///
+                                          Padding(
+                                              padding: EdgeInsets.only(
+                                                  top: height * 0.03),
+                                              child: InkWell(
+                                                onTap: () {
+                                                  // addloginDataToSf();
+                                              
+                                                 mobileAdminsignUp();
+                                                 
                                                
-                                             
-                                             
-                                              },
-                                              child: Container(
-                                                height: height * 0.05,
-                                                width: width * 0.4,
-                                                decoration: BoxDecoration(
-                                                    color: MyThemeClass
-                                                        .secoundryColor,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            15)),
-                                                child: Center(
-                                                    child: Text(
-                                                  'Sign Up',
-                                                  style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: width * 0.05,
-                                                  ),
-                                                )),
-                                              ),
-                                            ))
-                                      ],
+                                               
+                                                },
+                                                child: Container(
+                                                  height: height * 0.05,
+                                                  width: width * 0.4,
+                                                  decoration: BoxDecoration(
+                                                      color: MyThemeClass
+                                                          .secoundryColor,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              15)),
+                                                  child: Center(
+                                                      child: Text(
+                                                    'Sign Up',
+                                                    style: TextStyle(
+                                                      fontWeight: FontWeight.bold,
+                                                      fontSize: width * 0.05,
+                                                    ),
+                                                  )),
+                                                ),
+                                              ))
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                ]))),
-                        Padding(
-                          padding: EdgeInsets.only(top: height * 0.01),
-                          child: Container(
-                            height: height * 0.06,
-                            width: width * 0.4,
-                            child: Center(
-                                child: Text(
-                              'Or SignUp With',
-                              style: TextStyle(
-                                  fontSize: width * 0.045,
-                                  color: MyThemeClass.secoundryColor),
+                                  ])),
                             )),
-                          ),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Container(
-                              height: height * 0.1,
-                              width: width * 0.13,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Colors.blue[900],
-                              ),
-                              child: Center(
-                                child: Text(
-                                  'f',
-                                  style: TextStyle(
-                                    color: MyThemeClass.whiteColor,
-                                    fontSize: width * 0.13,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            SizedBox(width: width * 0.03),
-                            Container(
-                              height: height * 0.1,
-                              width: width * 0.13,
-                              decoration: const BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  image: DecorationImage(
-                                      fit: BoxFit.contain,
-                                      image: AssetImage('images/twitter.png'))),
-                            ),
-                          ],
-                        ),
+                        // Padding(
+                        //   padding: EdgeInsets.only(top: height * 0.01),
+                        //   child: Container(
+                        //     height: height * 0.06,
+                        //     width: width * 0.4,
+                        //     child: Center(
+                        //         child: Text(
+                        //       'Or SignUp With',
+                        //       style: TextStyle(
+                        //           fontSize: width * 0.045,
+                        //           color: MyThemeClass.secoundryColor),
+                        //     )),
+                        //   ),
+                        // ),
+                        // Row(
+                        //   mainAxisAlignment: MainAxisAlignment.center,
+                        //   children: [
+                        //     Container(
+                        //       height: height * 0.1,
+                        //       width: width * 0.13,
+                        //       decoration: BoxDecoration(
+                        //         shape: BoxShape.circle,
+                        //         color: Colors.blue[900],
+                        //       ),
+                        //       child: Center(
+                        //         child: Text(
+                        //           'f',
+                        //           style: TextStyle(
+                        //             color: MyThemeClass.whiteColor,
+                        //             fontSize: width * 0.13,
+                        //             fontWeight: FontWeight.bold,
+                        //           ),
+                        //         ),
+                        //       ),
+                        //     ),
+                        //     SizedBox(width: width * 0.03),
+                        //     Container(
+                        //       height: height * 0.1,
+                        //       width: width * 0.13,
+                        //       decoration: const BoxDecoration(
+                        //           shape: BoxShape.circle,
+                        //           image: DecorationImage(
+                        //               fit: BoxFit.contain,
+                        //               image: AssetImage('images/twitter.png'))),
+                        //     ),
+                        //   ],
+                        // ),
                       ],
                     ),
                   ),
                 ),
               ],
-            )));
+            )
+            )
+            );
   }
   
 }
