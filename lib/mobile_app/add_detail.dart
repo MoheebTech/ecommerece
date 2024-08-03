@@ -37,7 +37,7 @@ class _AddDetailState extends State<AddDetail> {
                           child: Align(
                             alignment: Alignment.centerRight,
                             child: Text(
-                              'RIGEL',
+                              'Shopflux',
                               style: TextStyle(fontSize: 33),
                             ),
                           ),

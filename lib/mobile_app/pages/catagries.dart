@@ -36,7 +36,7 @@ class _CatagriesScreenState extends State<CatagriesScreen> {
 
        centerTitle: true,
        title: Text(
-                            'RIGEL',
+                            'Shopflux',
                             style: TextStyle(
                               fontSize: width * 0.06,
                               color: MyThemeClass.whiteColor,

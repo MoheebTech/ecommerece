@@ -4,6 +4,7 @@ import 'package:ecommerece/mobile_app/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'admin_pannel/web/web_sideBar/addProduct_Screen.dart';
 import 'admin_pannel/web/web_sideBar/cartProduct.dart';
@@ -12,6 +13,7 @@ import 'admin_pannel/web/web_sideBar/deleteProduct_screen.dart';
 import 'admin_pannel/web/web_sideBar/updateProduct_screen.dart';
 
 void main() async {
+ 
   WidgetsFlutterBinding.ensureInitialized();
   if (kIsWeb) {
     await Firebase.initializeApp(
@@ -28,7 +30,10 @@ void main() async {
     await Firebase.initializeApp();
   }
   ;
-
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown
+  ]);
   ErrorWidget.builder = (FlutterErrorDetails details) {
     bool isDebug = false;
     assert(() {

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecommerece/admin_pannel/web/web_singup.dart';
+import 'package:ecommerece/mobile_app/Loginscreen.dart';
 import 'package:ecommerece/mobile_app/home_page.dart';
 import 'package:ecommerece/mobile_app/model_classes/static_value.dart';
 import 'package:ecommerece/mobile_app/model_classes/userModel.dart';
@@ -52,9 +53,8 @@ class _SignUpState extends State<SignUp> {
       if (userCredential.user != null) {
        // getToken();
 
-        print(' tocken id =${ StaticDate.tockenId.toString() }');
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => HomePage()));
+            context, MaterialPageRoute(builder: (context) => Loginscreen()));
         Fluttertoast.showToast(
           msg: "Registration Successfully",
           backgroundColor: Colors.green,

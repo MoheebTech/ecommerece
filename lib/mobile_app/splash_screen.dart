@@ -123,9 +123,9 @@ void getuserdata(v) async {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'RIGEL',
+                    'Shop Flux',
                     style: TextStyle(
-                        fontSize: width * 0.25,
+                        fontSize: width * 0.1,
                         color: MyThemeClass.secoundryColor),
                   ),
                   Text(

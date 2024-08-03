@@ -57,12 +57,18 @@ dependencies:
   image_picker: ^0.8.7+3
   permission_handler: ^10.2.0
   firebase_service: ^0.0.1+1
+  percent_indicator: ^4.2.3
   firebase_database: ^10.1.0
   file: ^6.1.4 
   random_uint8list: ^1.0.2
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: "^0.13.1"
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  image_path: "images/shopflux.png"
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

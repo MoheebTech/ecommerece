@@ -1,11 +1,9 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecommerece/admin_pannel/admin_model/product_model.dart';
-import 'package:ecommerece/mobile_app/Payment_method.dart';
 import 'package:ecommerece/mobile_app/model_classes/order_modelclass.dart';
 import 'package:ecommerece/mobile_app/model_classes/slider_modelclass.dart';
 import 'package:ecommerece/mobile_app/model_classes/static_value.dart';
-import 'package:ecommerece/mobile_app/pages/cart.dart';
 import 'package:ecommerece/mobile_app/pages/color_and_size_select.dart';
 import 'package:ecommerece/mobile_app/placedorder.dart';
 import 'package:ecommerece/them_data.dart';
@@ -179,96 +177,7 @@ List<Map<String, dynamic>>colorselect=<Map<String, dynamic>>[
           ),
           Column(
             children: [
-              // Card(
-              //   elevation: 15,
-              //   child: Container(
-              //     height: height * 0.1,
-              //     width: width,
-              //     color: MyThemeClass.primaryColor,
-              //     child: Padding(
-              //       padding: const EdgeInsets.only(bottom: 8.0),
-              //       child: Row(
-              //         //crossAxisAlignment: CrossAxisAlignment.start,
-              //         mainAxisAlignment: MainAxisAlignment.,
-              //         children: [
-              //           Padding(
-              //             padding: EdgeInsets.only(left: width * 0.02),
-              //             child: InkWell(
-              //               onTap: () {
-              //                 Navigator.pop(context);
-              //               },
-              //               child: Icon(
-              //                 Icons.arrow_back_ios,
-              //                 color: MyThemeClass.whiteColor,
-              //                 size: width * 0.06,
-              //               ),
-              //             ),
-              //           ),
-              //         //  SizedBox(width: width*0.1,),
-              //           Container(
-              //             alignment: Alignment.centerRight,
-              //             height: height,
-              //             width: width * 0.2,
-
-              //             // color: Colors.red,
-
-              //             child: Text(
-              //               'Item',
-              //               style: TextStyle(
-              //                 fontSize: width * 0.06,
-              //                 color: MyThemeClass.whiteColor,
-              //               ),
-              //             ),
-              //           ),
-              //           // Padding(
-              //           //   padding: EdgeInsets.only(right: width * 0.02),
-              //           //   child: InkWell(
-              //           //     onTap: () {
-              //           //       Navigator.push(
-              //           //           context,
-              //           //           MaterialPageRoute(
-              //           //               builder: (context) => CartScreen()));
-              //           //     },
-              //           //     child: Icon(
-              //           //       Icons.shopping_bag,
-              //           //       size: width * 0.06,
-              //           //       color: MyThemeClass.whiteColor,
-              //           //     ),
-              //           //   ),
-              //           // ),
-              //         ],
-              //       ),
-              //     ),
-              //   ),
-              // ),
-              Padding(
-                padding: EdgeInsets.only(top: height * 0.01),
-                child: Container(
-                  height: height * 0.05,
-                  width: width * 0.95,
-                  decoration: BoxDecoration(
-                    color: MyThemeClass.transColor!.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: TextFormField(
-                    controller: searchcontroller,
-                    decoration: const InputDecoration(
-                        prefixIcon: Icon(
-                          Icons.search,
-                          color: Colors.white,
-                        ),
-                        hintText: ('Search'),
-                        hintStyle: TextStyle(
-                          color: Colors.white,
-                        ),
-                        border: InputBorder.none,
-                        suffixIcon: Icon(
-                          Icons.mic,
-                          color: Colors.white,
-                        )),
-                  ),
-                ),
-              ),
+  
               SizedBox(
                   height: height * 0.22,
                   width: width,

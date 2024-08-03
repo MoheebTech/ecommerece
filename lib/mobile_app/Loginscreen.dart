@@ -41,7 +41,7 @@ FirebaseFirestore firebaseFirestore=FirebaseFirestore.instance;
     void addloginDataToSf() async {
     final prefs = await SharedPreferences.getInstance();
     prefs.setString('UserId', StaticDate.uid!);
-  }
+     }
 
   final _formKey = GlobalKey<FormState>();
   String? errorMessage;

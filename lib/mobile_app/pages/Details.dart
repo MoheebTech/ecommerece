@@ -8,8 +8,6 @@ import 'package:ecommerece/mobile_app/model_classes/userModel.dart';
 import 'package:ecommerece/them_data.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-import '../model_classes/address_model.dart';
-
 // ignore: must_be_immutable
 class DetailsScreen extends StatefulWidget{
   UserModel model;
@@ -86,10 +84,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
     return Scaffold(
       body: Form(
         key: _formKey,
-        child: ListView.builder(
-            
-                itemBuilder: (context, index){
-                  return Container(
+        child: 
+                   Container(
                   height: height,
                   width: width,
                   color: MyThemeClass.primaryColor,
@@ -136,27 +132,13 @@ class _DetailsScreenState extends State<DetailsScreen> {
                             )),
                       ),
                       SizedBox(height: height * 0.01),
-                      Container(
-                        height: height * 0.05,
-                        width: width,
-                        // color: Colors.amber,
-                        child: Center(
-                          child: Text('Your Details',
-                              style: TextStyle(
-                                color: MyThemeClass.whiteColor,
-                                fontSize: width * 0.06,
-                                // fontWeight: FontWeight.bold,
-                              )),
-                        ),
-                      ),
-                      SizedBox(height: height * 0.01),
-                      Card(
+                     Card(
                         elevation: 5,
                         color: Colors.black,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(15)),
                         child: Container(
-                          height: height * 0.09,
+                          height: height * 0.1,
                           width: width * 0.9,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(15),
@@ -227,7 +209,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(15)),
                         child: Container(
-                          height: height * 0.1,
+                          height: height * 0.12,
                           width: width * 0.9,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(15),
@@ -401,10 +383,10 @@ class _DetailsScreenState extends State<DetailsScreen> {
                       ),
                     ],
                   ),
-            );
-                }
+            )
+                
         
-        ),
+        
       ),
     );
   }

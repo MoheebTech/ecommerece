@@ -99,7 +99,7 @@ class _OrderPalcedState extends State<OrderPalced> {
               // color: Colors.red,
               child: Center(
                 child: Text(
-                    'Thanks! for using RIGEL,Your Order has\n'
+                    'Thanks! for using Shopflux,Your Order has\n'
                     'been placed successfully, our representative\n'
                     'will call you within next 24 hours for confirmation',
                     style: TextStyle(

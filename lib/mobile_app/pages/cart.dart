@@ -65,7 +65,7 @@ class _CartScreenState extends State<CartScreen> {
                               ),
                             ),
                             Text(
-                              'RIGEL',
+                              'Shopflux',
                               style: TextStyle(
                                 color: MyThemeClass.secoundryColor,
                                 fontSize: width * 0.07,

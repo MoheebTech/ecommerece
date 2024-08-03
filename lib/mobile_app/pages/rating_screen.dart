@@ -149,7 +149,7 @@ class _RatingScreenState extends State<RatingScreen> {
                       image: DecorationImage(
                           fit: BoxFit.cover,
                           image:
-                              NetworkImage("${widget.ordermodel.image![0]}"))),
+                              NetworkImage("${widget.ordermodel.image!.first}"))),
                   height: height * 0.32,
                   width: width,
                 ),

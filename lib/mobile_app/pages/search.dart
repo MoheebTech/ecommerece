@@ -1,8 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:ecommerece/mobile_app/Payment_method.dart';
-import 'package:ecommerece/mobile_app/pages/cart.dart';
 import 'package:ecommerece/them_data.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 import '../../admin_pannel/admin_model/product_model.dart';
 import '../item_screen.dart';
@@ -78,7 +77,7 @@ class _SearchScreenState extends State<SearchScreen> {
            
             SizedBox(height: height * 0.02),
              Container(
-              height: height * 0.05,
+              height: height * 0.07,
               width: width * 0.95,
               decoration: BoxDecoration(
                 color: MyThemeClass.transColor?.withOpacity(0.1),
@@ -273,7 +272,7 @@ SizedBox(height: height * 0.02),
                               padding: const EdgeInsets.only(
                                   left: 12.0, right: 12.0, bottom: 12.0),
                               child: Container(
-                                height: height * 0.3,
+                                height: height * 0.32,
                                 width: width * 0.8,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(15),
@@ -297,48 +296,41 @@ SizedBox(height: height * 0.02),
                                         ),
                                       ),
                                     ),
-                                    SizedBox(
-                                      height: height * 0.1,
-                                      width: width,
+                                    Expanded(
                                       // color: Colors.red,
                                       child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Container(
-                                            height: height,
-                                            width: width * 0.3,
-                                            // color: Colors.green,
-                                            child: Padding(
-                                              padding: EdgeInsets.only(
-                                                  left: width * 0.04),
-                                              child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceEvenly,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    '${newproductlist[index].productname}',
-                                                    style: TextStyle(
-                                                      color: MyThemeClass
-                                                          .whiteColor,
-                                                      fontSize: width * 0.04,
-                                                    ),
+                                          Padding(
+                                            padding: EdgeInsets.only(
+                                                left: width * 0.04),
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceEvenly,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  '${newproductlist[index].productname}',
+                                                  style: TextStyle(
+                                                    color: MyThemeClass
+                                                        .whiteColor,
+                                                    fontSize: width * 0.04,
                                                   ),
-                                                  Text(
-                                                    '${newproductlist[index].price}',
-                                                    style: TextStyle(
-                                                      color: MyThemeClass
-                                                          .whiteColor,
-                                                      fontSize: width * 0.05,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                    ),
+                                                ),
+                                                Text(
+                                                  'Price: ${newproductlist[index].price}',
+                                                  style: TextStyle(
+                                                    color: MyThemeClass
+                                                        .whiteColor,
+                                                    fontSize: width * 0.05,
+                                                    fontWeight:
+                                                        FontWeight.bold,
                                                   ),
-                                                ],
-                                              ),
+                                                ),
+                                              ],
                                             ),
                                           ),
                                           Container(

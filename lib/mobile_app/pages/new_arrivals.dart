@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecommerece/admin_pannel/admin_model/product_model.dart';
-import 'package:ecommerece/mobile_app/pages/cart.dart';
 import 'package:ecommerece/them_data.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -84,7 +83,7 @@ class _NewArrivalState extends State<NewArrival> {
 
        centerTitle: true,
        title: Text(
-                            'RIGEL',
+                            'Shop Flux',
                             style: TextStyle(
                               fontSize: width * 0.06,
                               color: MyThemeClass.whiteColor,
@@ -101,7 +100,7 @@ class _NewArrivalState extends State<NewArrival> {
             Padding(
               padding: EdgeInsets.only(top: height * 0.01),
               child: Container(
-                height: height * 0.05,
+                height: height * 0.07,
                 width: width * 0.95,
                 decoration: BoxDecoration(
                   color: MyThemeClass.transColor?.withOpacity(0.1),
@@ -117,6 +116,7 @@ class _NewArrivalState extends State<NewArrival> {
                       });
                     },
                     decoration: const InputDecoration(
+                      
                         prefixIcon: Icon(
                           Icons.search,
                           color: Colors.white,
@@ -194,48 +194,41 @@ class _NewArrivalState extends State<NewArrival> {
                                         ),
                                       ),
                                     ),
-                                    SizedBox(
-                                      height: height * 0.1,
-                                      width: width,
-                                      // color: Colors.red,
+                                    Flexible(
+                                   
                                       child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Container(
-                                            height: height,
-                                            width: width * 0.3,
-                                            // color: Colors.green,
-                                            child: Padding(
-                                              padding: EdgeInsets.only(
-                                                  left: width * 0.04),
-                                              child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceEvenly,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    '${newproductlist[index].productname}',
-                                                    style: TextStyle(
-                                                      color: MyThemeClass
-                                                          .whiteColor,
-                                                      fontSize: width * 0.04,
-                                                    ),
+                                          Padding(
+                                            padding: EdgeInsets.only(
+                                                left: width * 0.04),
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceEvenly,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  '${newproductlist[index].productname}',
+                                                  style: TextStyle(
+                                                    color: MyThemeClass
+                                                        .whiteColor,
+                                                    fontSize: width * 0.04,
                                                   ),
-                                                  Text(
-                                                    '${newproductlist[index].price}',
-                                                    style: TextStyle(
-                                                      color: MyThemeClass
-                                                          .whiteColor,
-                                                      fontSize: width * 0.05,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                    ),
+                                                ),
+                                                Text(
+                                                  'Price: ${newproductlist[index].price}',
+                                                  style: TextStyle(
+                                                    color: MyThemeClass
+                                                        .whiteColor,
+                                                    fontSize: width * 0.045,
+                                                    fontWeight:
+                                                        FontWeight.bold,
                                                   ),
-                                                ],
-                                              ),
+                                                ),
+                                              ],
                                             ),
                                           ),
                                           Container(
@@ -408,48 +401,41 @@ class _NewArrivalState extends State<NewArrival> {
                                         ),
                                       ),
                                     ),
-                                    SizedBox(
-                                      height: height * 0.1,
-                                      width: width,
-                                      // color: Colors.red,
+                                    Flexible(
+                                     
                                       child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Container(
-                                            height: height,
-                                            width: width * 0.3,
-                                            // color: Colors.green,
-                                            child: Padding(
-                                              padding: EdgeInsets.only(
-                                                  left: width * 0.04),
-                                              child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceEvenly,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    '${newproductlist[index].productname}',
-                                                    style: TextStyle(
-                                                      color: MyThemeClass
-                                                          .whiteColor,
-                                                      fontSize: width * 0.04,
-                                                    ),
+                                          Padding(
+                                            padding: EdgeInsets.only(
+                                                left: width * 0.04),
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceEvenly,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  '${newproductlist[index].productname}',
+                                                  style: TextStyle(
+                                                    color: MyThemeClass
+                                                        .whiteColor,
+                                                    fontSize: width * 0.04,
                                                   ),
-                                                  Text(
-                                                    '${newproductlist[index].price}',
-                                                    style: TextStyle(
-                                                      color: MyThemeClass
-                                                          .whiteColor,
-                                                      fontSize: width * 0.05,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                    ),
+                                                ),
+                                                Text(
+                                                  'Price: ${newproductlist[index].price}',
+                                                  style: TextStyle(
+                                                    color: MyThemeClass
+                                                        .whiteColor,
+                                                    fontSize: width * 0.045,
+                                                    fontWeight:
+                                                        FontWeight.bold,
                                                   ),
-                                                ],
-                                              ),
+                                                ),
+                                              ],
                                             ),
                                           ),
                                           Container(

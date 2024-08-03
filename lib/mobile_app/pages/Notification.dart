@@ -63,33 +63,26 @@ class _NotificationScreenState extends State<NotificationScreen> {
             ),
             SizedBox(height: height * 0.01),
             Container(
-              height: height * 0.05,
-              width: width * 0.95,
+              height: height * 0.07,
+              width: width * 0.75,
               decoration: BoxDecoration(
-                  color: MyThemeClass.transColor?.withOpacity(0.1),
-                  borderRadius:const BorderRadius.all(Radius.circular(20))),
-              child: Container(
-                height: height * 0.05,
-                width: width * 0.75,
-                decoration: BoxDecoration(
-                  color: MyThemeClass.transColor?.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: TextFormField(
-                  controller: searchcontroller,
-                  decoration: const InputDecoration(
-                      prefixIcon: Icon(
-                        Icons.search,
-                        color: Colors.white,
-                      ),
-                      hintText: ('Search'),
-                      hintStyle: TextStyle(color: Colors.white),
-                      border: InputBorder.none,
-                      suffixIcon: Icon(
-                        Icons.mic,
-                        color: Colors.white,
-                      )),
-                ),
+                color: MyThemeClass.transColor?.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: TextFormField(
+                controller: searchcontroller,
+                decoration: const InputDecoration(
+                    prefixIcon: Icon(
+                      Icons.search,
+                      color: Colors.white,
+                    ),
+                    hintText: ('Search'),
+                    hintStyle: TextStyle(color: Colors.white),
+                    border: InputBorder.none,
+                    suffixIcon: Icon(
+                      Icons.mic,
+                      color: Colors.white,
+                    )),
               ),
             ),
             SizedBox(height: height * 0.01),
@@ -107,7 +100,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
             ),
             SizedBox(height: height * 0.01),
             Container(
-              height: height * 0.1,
+              height: height * 0.12,
               width: width * 0.9,
               decoration: BoxDecoration(
                 color: MyThemeClass.transColor?.withOpacity(0.1),
@@ -136,7 +129,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
             ),
             SizedBox(height: height * 0.01),
             Container(
-              height: height * 0.1,
+              height: height * 0.12,
               width: width * 0.9,
               decoration: BoxDecoration(
                 color: MyThemeClass.transColor?.withOpacity(0.1),
@@ -165,7 +158,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
             ),
             SizedBox(height: height * 0.01),
             Container(
-              height: height * 0.1,
+              height: height * 0.12,
               width: width * 0.9,
               decoration: BoxDecoration(
                 color: MyThemeClass.transColor?.withOpacity(0.1),
@@ -192,7 +185,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                 ),
               ),
             ),
-            SizedBox(height: height * 0.37),
+            SizedBox(height: height * 0.28),
             Container(
               height: height * 0.05,
               width: width * 0.8,
